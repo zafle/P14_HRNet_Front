@@ -1,0 +1,44 @@
+@use '../../styles/sass/variables' as *;
+
+.mainheader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+
+  &__brand {
+    display: flex;
+    align-items: center;
+
+    &--logo {
+      width: 3.4rem;
+      height: 3.4rem;
+    }
+
+    &--text {
+      color: $primary-color;
+      font-size: 4rem;
+      font-weight: 700;
+    }
+  }
+
+  &__nav {
+    display: flex;
+    gap: 2rem;
+
+    &--link {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: $primary-color;
+      padding: 1.5em 2em;
+
+      &.active {
+        text-decoration: underline;
+      }
+
+      &:hover {
+        color: $third-color;
+      }
+    }
+  }
+}

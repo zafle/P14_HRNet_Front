@@ -1,0 +1,15 @@
+@use './styles/sass/variables' as *;
+
+body {
+  margin: 0;
+}
+
+#root {
+  font-family: $main-font, sans-serif;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+a {
+  text-decoration: none;
+}
