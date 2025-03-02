@@ -1,5 +1,6 @@
 import { Provider } from 'react-redux'
 // import { store, persistor } from './redux/store'
+// import styles from './App.module.scss'
 
 import './_App.scss'
 import Router from './router/Router'

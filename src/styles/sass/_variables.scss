@@ -1,7 +1,18 @@
-
+@use 'sass:color';
 
 $primary-color: #5e6e21;
 $secondary-color: #72852c;
 $third-color: #98ac3b;
 
 $main-font: 'Montserrat';
+
+// form spacings and typo
+$form-item-margin-bottom: 24px;
+$label-font-weight: 600;
+$input-max-width: 235px;
+$inputMarginTop: 8px;
+$input-margin-top: 8px;
+$input-vertical-padding: 8px;
+$input-horizontal-padding: 10px;
+$input-font-size: 16px;
+$input-background-colored: color.adjust($third-color, $lightness: 40%);

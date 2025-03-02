@@ -1,22 +1,30 @@
 import PropTypes from 'prop-types'
+import './_FormInput.scss'
 
 export default function FormInput({
   type = 'text',
   label,
   onChange,
   inputValue,
+  background,
 }) {
   return (
-    <label>
+    <label className="formLabel">
       {label}
-      <input type={type} onChange={onChange} value={inputValue} />
+      <input
+        className={`formInput ${background ? 'formInput--colored' : ''}`}
+        type={type}
+        onChange={onChange}
+        value={inputValue}
+      />
     </label>
   )
 }
 
 FormInput.propTypes = {
-  type: PropTypes.string.isRequired,
+  type: PropTypes.string,
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
+  background: PropTypes.bool,
 }

@@ -1,0 +1,74 @@
+@use '../../styles/sass/variables' as *;
+@use 'sass:color';
+
+.createEmployeeForm {
+  max-width: 704px;
+  margin: 0 auto;
+  box-sizing: border-box;
+
+  &__insideContainer {
+    display: flex;
+    justify-content: center;
+    column-gap: 40px;
+    flex-wrap: wrap;
+    padding: 32px;
+  }
+  &__block {
+    flex: 0 0 45%;
+    min-width: 250px;
+    max-width: 300px;
+
+    &--insideContainer {
+      padding: 20px 32px 0;
+    }
+  }
+
+  &__fieldset {
+    background-color: color.adjust($third-color, $lightness: 20%);
+    border: none;
+    padding: 32px;
+
+    & legend {
+      font-weight: 700;
+      background-color: $primary-color;
+      padding: 10px 16px;
+      color: white;
+    }
+  }
+  .formLabel {
+    display: block;
+    font-weight: $label-font-weight;
+    margin-bottom: $form-item-margin-bottom;
+    cursor: pointer;
+  }
+  .selectFormLabel {
+    font-weight: $label-font-weight;
+    cursor: pointer;
+  }
+  .formInput {
+    display: block;
+    margin-top: $input-margin-top;
+    padding: $input-vertical-padding $input-horizontal-padding;
+    max-width: $input-max-width;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    font-size: $input-font-size;
+
+    &--colored {
+      background-color: $input-background-colored;
+    }
+  }
+
+  &__submitButton {
+    padding: 10px 20px;
+    background-color: $primary-color;
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    display: block;
+    margin: 0 auto;
+  }
+}

@@ -1,0 +1,17 @@
+@use 'variables' as *;
+
+// export to use in jsx components
+:export {
+  primaryColor: $primary-color;
+  secondaryColor: $secondary-color;
+  thirdColor: $third-color;
+
+  formItemMarginBottom: $form-item-margin-bottom;
+  labelFontWeight: $label-font-weight;
+  inputMaxWidth: $input-max-width;
+  inputMarginTop: $input-margin-top;
+  inputVerticalPadding: $input-vertical-padding;
+  inputHorizontalPadding: $input-horizontal-padding;
+  inputFontSize: $input-font-size;
+  inputBackgroundColored: $input-background-colored;
+}
