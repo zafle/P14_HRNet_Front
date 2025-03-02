@@ -1,10 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+// const formatDate = (date) => {
+//   // return new Intl.DateTimeFormat('en-GB').format(date)
+//   return date.toString()
+// }
 const initialState = {
   firstName: '',
   lastName: '',
-  startDate: '',
-  dateOfBirth: '',
+  startDate: null,
+  dateOfBirth: null,
   street: '',
   city: '',
   state: '',
@@ -18,7 +22,6 @@ export const employeeSlice = createSlice({
   reducers: {
     setFirstName(state, action) {
       state.firstName = action.payload
-      // console.log('firstname action.payload :', action.payload)
     },
     setLastName(state, action) {
       state.lastName = action.payload

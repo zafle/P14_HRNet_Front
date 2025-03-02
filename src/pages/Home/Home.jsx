@@ -5,8 +5,9 @@ import { employeeSlice } from '../../redux/features/employeeSlice'
 import { getEmployee } from '../../redux/selectors'
 import { DEPARTMENTS, STATES } from '../../data/employeeForm'
 import FormSelect from '../../components/FormSelect/FormSelect'
-import variables from '../../styles/sass/_export.module.scss'
+import variables from '../../styles/_export.module.scss'
 import './_Home.scss'
+import { FormDatePicker } from '../../components/FormDatePicker/FormDatePicker'
 
 export default function Home() {
   const dispatch = useDispatch()
@@ -38,20 +39,21 @@ export default function Home() {
                 inputValue={lastName}
                 background={true}
               />
-              <FormInput
+              <FormDatePicker
                 label="Date of Birth"
-                onChange={(e) => {
-                  dispatch(employeeSlice.actions.setDateOfBirth(e.target.value))
+                selectedDate={dateOfBirth}
+                onchange={(date) => {
+                  const newDate = date.toString()
+                  dispatch(employeeSlice.actions.setDateOfBirth(newDate))
                 }}
-                inputValue={dateOfBirth}
-                background={true}
               />
-              <FormInput
+              <FormDatePicker
                 label="Start Date"
-                onChange={(e) => {
-                  dispatch(employeeSlice.actions.setStartDate(e.target.value))
+                selectedDate={startDate}
+                onchange={(date) => {
+                  const newDate = date.toString()
+                  dispatch(employeeSlice.actions.setStartDate(newDate))
                 }}
-                inputValue={startDate}
               />
               <FormSelect
                 label="Department"

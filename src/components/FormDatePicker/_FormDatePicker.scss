@@ -1,0 +1,14 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.react-datepicker-wrapper {
+  width: 100%;
+}
+.react-datepicker__input-container input {
+  @include input-style;
+  background-color: $input-background-colored;
+}
+
+.react-datepicker-popper {
+  font-weight: 400;
+}

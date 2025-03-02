@@ -1,0 +1,11 @@
+@use 'variables' as *;
+
+@mixin input-style {
+  margin-top: $input-margin-top;
+  padding: $input-vertical-padding $input-horizontal-padding;
+  max-width: $input-max-width;
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  font-size: $input-font-size;
+}

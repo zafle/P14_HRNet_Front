@@ -1,7 +1,7 @@
 import { SelectMenu } from '@zafle/select_menu'
 import PropTypes from 'prop-types'
 import './_FormSelect.scss'
-import variables from '../../styles/sass/_export.module.scss'
+import variables from '../../styles/_export.module.scss'
 
 export default function FormSelect({
   label,
