@@ -5,13 +5,13 @@ import { employeeSlice } from '../../redux/features/employeeSlice'
 import { getEmployee } from '../../redux/selectors'
 import { DEPARTMENTS, STATES } from '../../data/employeeForm'
 import FormSelect from '../../components/FormSelect/FormSelect'
+import FormDatePickerStateManager from '../../components/FormDatePickerStateManager/FormDatePickerStateManager'
 import variables from '../../styles/_export.module.scss'
 import './_Home.scss'
-import { FormDatePicker } from '../../components/FormDatePicker/FormDatePicker'
 
 export default function Home() {
   const dispatch = useDispatch()
-  const { firstName, lastName, startDate, dateOfBirth, street, city, zipCode } =
+  const { firstName, lastName, street, city, zipCode, dateOfBirth, startDate } =
     useSelector(getEmployee)
 
   const { inputBackgroundColored } = variables
@@ -39,23 +39,23 @@ export default function Home() {
                 inputValue={lastName}
                 background={true}
               />
-              <FormDatePicker
+
+              <FormDatePickerStateManager
                 label="Date of Birth"
-                selectedDate={dateOfBirth}
-                setSelectedDate={(date) => {
-                  const newDate = date ? date.toString() : null
-                  dispatch(employeeSlice.actions.setDateOfBirth(newDate))
-                }}
+                date={dateOfBirth}
+                dispatchDate={(date) =>
+                  dispatch(employeeSlice.actions.setDateOfBirth(date))
+                }
                 maxDate={new Date()}
               />
-              <FormDatePicker
+              <FormDatePickerStateManager
                 label="Start Date"
-                selectedDate={startDate}
-                setSelectedDate={(date) => {
-                  const newDate = date ? date.toString() : null
-                  dispatch(employeeSlice.actions.setStartDate(newDate))
-                }}
+                date={startDate}
+                dispatchDate={(date) =>
+                  dispatch(employeeSlice.actions.setStartDate(date))
+                }
               />
+
               <FormSelect
                 label="Department"
                 options={DEPARTMENTS}

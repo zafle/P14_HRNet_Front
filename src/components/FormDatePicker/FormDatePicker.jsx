@@ -4,14 +4,16 @@ import { getMonth, getYear } from 'date-fns'
 import range from 'lodash/range'
 import PropTypes from 'prop-types'
 import './_FormDatePicker.scss'
+import { useState } from 'react'
 
-export function FormDatePicker({
-  label,
-  selectedDate,
-  setSelectedDate,
-  maxDate,
-}) {
-  const formattedDate = selectedDate ? new Date(selectedDate) : null
+export default function FormDatePicker({ label, date, setDate, maxDate }) {
+  const startDate = date ? new Date(date) : null
+  const [selectedDate, setSelectedDate] = useState(startDate)
+
+  const handleChangeSelectedDate = (date) => {
+    setSelectedDate(date)
+    setDate(date?.toString() || null)
+  }
 
   const years = range(1900, getYear(new Date()) + 1, 1)
   const months = [
@@ -30,7 +32,7 @@ export function FormDatePicker({
   ]
 
   return (
-    <div>
+    <>
       <label className="datePickerFormLabel">{label}</label>
 
       <DatePicker
@@ -89,21 +91,21 @@ export function FormDatePicker({
             </button>
           </div>
         )}
-        selected={formattedDate}
-        onChange={setSelectedDate}
+        selected={selectedDate}
+        onChange={handleChangeSelectedDate}
         maxDate={maxDate ? maxDate : null}
         isClearable
         placeholderText="Select a date"
         todayButton="Today"
         fixedHeight
       />
-    </div>
+    </>
   )
 }
 
 FormDatePicker.propTypes = {
   label: PropTypes.string.isRequired,
-  selectedDate: PropTypes.string,
-  setSelectedDate: PropTypes.func.isRequired,
+  date: PropTypes.string,
+  setDate: PropTypes.func.isRequired,
   maxDate: PropTypes.object,
 }

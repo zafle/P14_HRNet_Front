@@ -61,7 +61,8 @@
     &-name {
       color: white;
     }
-    &--selected {
+    &--selected,
+    &--selected:hover {
       background-color: $primary-color;
     }
     &:not([aria-disabled='true']):hover {

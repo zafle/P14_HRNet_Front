@@ -20,7 +20,6 @@ export default function FormSelect({
     formItemMarginBottom,
     primaryColor,
   } = variables
-  console.log('inputMarginTop', inputMarginTop)
   return (
     <>
       <label htmlFor={`select-${label}`} className="selectFormLabel">
