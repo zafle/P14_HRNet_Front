@@ -36,11 +36,14 @@
       color: white;
     }
   }
+  .formLabel {
+    margin-bottom: $form-item-margin-bottom;
+  }
+
   .formLabel,
   .datePickerFormLabel {
     display: block;
     font-weight: $label-font-weight;
-    margin-bottom: $form-item-margin-bottom;
     cursor: pointer;
   }
   .selectFormLabel {

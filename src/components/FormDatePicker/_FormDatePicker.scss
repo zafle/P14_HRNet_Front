@@ -4,11 +4,76 @@
 .react-datepicker-wrapper {
   width: 100%;
 }
-.react-datepicker__input-container input {
-  @include input-style;
-  background-color: $input-background-colored;
-}
-
 .react-datepicker-popper {
   font-weight: 400;
+
+  &[data-placement^='bottom'] .react-datepicker__triangle,
+  &[data-placement^='top'] .react-datepicker__triangle {
+    fill: $primary-color;
+    color: $primary-color;
+  }
+
+  & .react-datepicker__triangle {
+    stroke: $primary-color;
+  }
+}
+.react-datepicker {
+  border: 1px solid $primary-color;
+  box-shadow: rgba(0, 0, 0, 0.2) 10px 10px 15px;
+
+  &__input-container input {
+    @include input-style;
+    background-color: $input-background-colored;
+    margin-bottom: 24px;
+  }
+
+  &__close-icon {
+    height: 35px;
+    top: 7px;
+  }
+
+  &__close-icon::after {
+    background-color: transparent;
+    color: black;
+    font-size: 32px;
+    font-weight: 200;
+    font-family: Montserrat;
+  }
+
+  &__header {
+    background-color: $primary-color;
+
+    &-controls {
+      margin: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &-select,
+    &-button {
+      background-color: white;
+      border: none;
+      border-radius: 2px;
+    }
+  }
+
+  &__day {
+    &-name {
+      color: white;
+    }
+    &--selected {
+      background-color: $primary-color;
+    }
+    &:not([aria-disabled='true']):hover {
+      background-color: $input-background-colored;
+    }
+    &--outside-month {
+      color: #b8b8b8;
+    }
+  }
+
+  &__today-button {
+    background: $primary-color;
+    color: white;
+  }
 }

@@ -42,16 +42,17 @@ export default function Home() {
               <FormDatePicker
                 label="Date of Birth"
                 selectedDate={dateOfBirth}
-                onchange={(date) => {
-                  const newDate = date.toString()
+                setSelectedDate={(date) => {
+                  const newDate = date ? date.toString() : null
                   dispatch(employeeSlice.actions.setDateOfBirth(newDate))
                 }}
+                maxDate={new Date()}
               />
               <FormDatePicker
                 label="Start Date"
                 selectedDate={startDate}
-                onchange={(date) => {
-                  const newDate = date.toString()
+                setSelectedDate={(date) => {
+                  const newDate = date ? date.toString() : null
                   dispatch(employeeSlice.actions.setStartDate(newDate))
                 }}
               />
