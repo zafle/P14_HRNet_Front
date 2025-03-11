@@ -4,11 +4,32 @@ import { getMonth, getYear } from 'date-fns'
 import range from 'lodash/range'
 import PropTypes from 'prop-types'
 import './_FormDatePicker.scss'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getFormControl } from '../../redux/selectors'
+import { formControlSlice } from '../../redux/features/formControlSlice'
+// import { getEmployee } from '../../redux/selectors'
+// import { employeeSlice } from '../../redux/features/employeeSlice'
 
 export default function FormDatePicker({ label, date, setDate, maxDate }) {
+  const dispatch = useDispatch()
+  const { clearDate } = useSelector(getFormControl)
+  // const { clearDate } = useSelector(getEmployee)
+  // const [clearDate, setClearDate] = useState(false)
+
+  //
   const startDate = date ? new Date(date) : null
   const [selectedDate, setSelectedDate] = useState(startDate)
+
+  useEffect(() => {
+    if (clearDate === true) {
+      console.log('clear date')
+      setDate(null)
+      setSelectedDate(null)
+      dispatch(formControlSlice.actions.setClearDate(false))
+      // setClearDate(false)
+    }
+  }, [clearDate, dispatch, setDate])
 
   const handleChangeSelectedDate = (date) => {
     setSelectedDate(date)

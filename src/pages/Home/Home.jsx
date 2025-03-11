@@ -2,24 +2,102 @@ import { useDispatch, useSelector } from 'react-redux'
 import FormInput from '../../components/FormInput/FormInput'
 import MainTitle from '../../components/MainTitle/MainTitle'
 import { employeeSlice } from '../../redux/features/employeeSlice'
-import { getEmployee } from '../../redux/selectors'
+import { getEmployee, getEmployeeValues } from '../../redux/selectors'
 import { DEPARTMENTS, STATES } from '../../data/employeeForm'
 import FormSelect from '../../components/FormSelect/FormSelect'
 import FormDatePickerStateManager from '../../components/FormDatePickerStateManager/FormDatePickerStateManager'
 import variables from '../../styles/_export.module.scss'
 import './_Home.scss'
+import { employeesSlice } from '../../redux/features/employeesSlice'
+import { nanoid } from '@reduxjs/toolkit'
+import { useState } from 'react'
+import { CustomModal } from '../../components/CustomModal/CustomModal'
+// import { useNavigate } from 'react-router'
+import { formControlSlice } from '../../redux/features/formControlSlice'
 
 export default function Home() {
   const dispatch = useDispatch()
-  const { firstName, lastName, street, city, zipCode, dateOfBirth, startDate } =
-    useSelector(getEmployee)
+  // const {
+  //   firstName,
+  //   lastName,
+  //   street,
+  //   city,
+  //   zipCode,
+  //   dateOfBirth,
+  //   startDate,
+  //   state,
+  //   department,
+  // } = useSelector(getEmployee)
+
+  // const employee = useSelector(getEmployee)
+  // console.log('employee', employee)
+
+  const {
+    firstName,
+    lastName,
+    street,
+    city,
+    zipCode,
+    dateOfBirth,
+    startDate,
+    state,
+    department,
+  } = useSelector(getEmployeeValues)
+  // console.log(firstName)
+  // console.log(dateOfBirth)
+  // console.log(state)
 
   const { inputBackgroundColored } = variables
 
+  const formatDate = (date) => {
+    const formatedDate = new Intl.DateTimeFormat('en-GB').format(new Date(date))
+    if (formatedDate === '01/01/1970') {
+      return ''
+    }
+    return formatedDate
+  }
+
+  // const navigate = useNavigate()
+
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const onOpen = () => {
+    setIsModalOpen(true)
+  }
+  const onClose = () => {
+    setIsModalOpen(false)
+    // navigate('employee-list')
+  }
+
+  function handleSubmitForm(e) {
+    e.preventDefault()
+    dispatch(
+      employeesSlice.actions.addEmployee({
+        id: nanoid(),
+        firstName,
+        lastName,
+        startDate: formatDate(startDate),
+        department,
+        dateOfBirth: formatDate(dateOfBirth),
+        street,
+        city,
+        state,
+        zipCode,
+      })
+    )
+    dispatch(employeeSlice.actions.clearEmployee())
+    dispatch(formControlSlice.actions.setClearDate(true))
+    onOpen()
+  }
+
   return (
     <main>
+      <CustomModal
+        open={isModalOpen}
+        onClose={onClose}
+        message={'Employee Created!'}
+      />
       <MainTitle title="Create Employee" />
-      <form className="createEmployeeForm">
+      <form className="createEmployeeForm" onSubmit={handleSubmitForm}>
         <div className="createEmployeeForm__insideContainer">
           <div className="createEmployeeForm__block">
             <div className="createEmployeeForm__block--insideContainer">
@@ -62,6 +140,7 @@ export default function Home() {
                 onChange={(option) =>
                   dispatch(employeeSlice.actions.setDepartment(option))
                 }
+                selectedOption={department}
                 backgroundColor={inputBackgroundColored}
               />
             </div>
@@ -89,6 +168,7 @@ export default function Home() {
                 onChange={(option) =>
                   dispatch(employeeSlice.actions.setState(option))
                 }
+                selectedOption={state}
                 textField="name"
                 valueField="abbreviation"
                 backgroundColor="white"

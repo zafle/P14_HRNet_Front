@@ -19,7 +19,7 @@ function Header() {
         <NavLink className="mainheader__nav--link" to="/">
           Home
         </NavLink>
-        <NavLink className="mainheader__nav--link" to="/employees-list">
+        <NavLink className="mainheader__nav--link" to="/employee-list">
           Current Employees
         </NavLink>
       </nav>
