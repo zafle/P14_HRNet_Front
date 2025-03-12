@@ -1,17 +1,22 @@
 import PropTypes from 'prop-types'
+import './_FilterComponent.scss'
 
 export default function FilterComponent({ onFilter, onClear, filterText }) {
   return (
-    <div>
+    <div className="datatable-filter">
       <input
-        id="search"
+        className="datatable-filter__input"
         type="text"
         placeholder="Search"
-        aria-label="Search Input"
+        aria-label="Search"
         value={filterText}
         onChange={onFilter}
       />
-      <button type="button" onClick={onClear}>
+      <button
+        className="datatable-filter__button"
+        type="button"
+        onClick={onClear}
+      >
         X
       </button>
     </div>

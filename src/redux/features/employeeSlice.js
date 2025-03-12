@@ -18,7 +18,7 @@ const initialState = {
     value: '',
   },
   dateOfBirth: {
-    title: 'Date Of Birth',
+    title: 'Date of Birth',
     value: null,
   },
   street: {

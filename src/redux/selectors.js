@@ -1,3 +1,4 @@
+import { createSelector } from '@reduxjs/toolkit'
 import { employeesSelector } from './features/employeesSlice'
 
 export const getEmployee = (state) => state.employee
@@ -22,5 +23,16 @@ export const getEmployeeProperties = (state) => {
 
 export const getFormControl = (state) => state.formControl
 
-export const allEmployees = (state) =>
-  employeesSelector.selectAll(state.employees)
+export const getAllEmployees = (state) => employeesSelector.selectAll(state)
+
+export const getNewEmployeeId = createSelector(
+  [getAllEmployees],
+  (employees) => {
+    if (employees.length === 0) {
+      return 1
+    }
+    let allIds = []
+    employees.forEach((employee) => allIds.push(employee.id))
+    return Math.max(...allIds) + 1
+  }
+)

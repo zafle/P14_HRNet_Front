@@ -1,24 +1,25 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import DataTable from 'react-data-table-component'
-import FilterComponent from './components/FilterComponent/FilterComponent'
 import PropTypes from 'prop-types'
 import './_CustomDataTable.scss'
 import variables from '../../styles/_export.module.scss'
+import ConfirmDeleteModal from './components/ConfirmDeleteModal/ConfirmDeleteModal'
+import FilterDataTable from './components/FilterDataTable/FilterDataTable'
+import { filterContext } from '../../contexts/filterContext'
+import DeleteButton from './components/DeleteButton/DeleteButton'
 
-// export default function CustomDataTable({ columns, data, properties, title }) {
 export default function CustomDataTable({
   title,
   headerCellsTitles,
   filterProperties,
   tableData,
+  onDeleteAction,
 }) {
-  // scss variables
-  const { thirdColor, inputBackgroundColored } = variables
-  // States for filtering data
-  const [filterText, setFilterText] = useState('')
-  const [resetPaginationToggle, setResetPaginationToggle] = useState(false)
-
+  const { filterText, toggleResetPagination } = useContext(filterContext)
   const [sortedByColumn, setSortedByColumn] = useState(1)
+  const { thirdColor, inputBackgroundColored } = variables
+
+  // Functions for sort functionality
   const handleSort = (column) => {
     setSortedByColumn(column.id)
   }
@@ -35,22 +36,34 @@ export default function CustomDataTable({
     styleSortedByCells(document.querySelectorAll('.rdt_TableCell'))
   }, [sortedByColumn])
 
-  // format data
-  const createColumns = (columnsTitles) => {
-    return Object.entries(columnsTitles).map(([key, value]) => ({
+  // creates table columns data
+  const deleteColumn = [
+    {
+      cell: (row) => (
+        <DeleteButton row={row} nameProperty={onDeleteAction.nameProperty} />
+      ),
+    },
+  ]
+
+  const titlesColumns = Object.entries(headerCellsTitles).map(
+    ([key, value]) => ({
       name: value,
       selector: (row) => row[key],
       sortable: true,
-    }))
-  }
+    })
+  )
 
-  const createData = (data) => {
-    return data.map((item, index) => ({
-      ...item,
-      id: index + 1,
-    }))
-  }
+  const allColumns = deleteColumn.concat(titlesColumns)
 
+  const filteredData = tableData.filter((item) =>
+    filterProperties.some(
+      (key) =>
+        item[key] &&
+        item[key].toString().toLowerCase().includes(filterText.toLowerCase())
+    )
+  )
+
+  // creates custom styles
   const customStyles = {
     headCells: {
       style: {
@@ -76,59 +89,42 @@ export default function CustomDataTable({
     },
   }
 
-  // creates data
-  const columns = createColumns(headerCellsTitles)
-  const data = createData(tableData)
-
-  const filteredData = data.filter((item) =>
-    filterProperties.some(
-      (key) =>
-        item[key] &&
-        item[key].toString().toLowerCase().includes(filterText.toLowerCase())
-    )
-  )
-
   // creates filter component
   const filterDataTableMemo = useMemo(() => {
-    const handleClear = () => {
-      if (filterText) {
-        setResetPaginationToggle(!resetPaginationToggle)
-        setFilterText('')
-      }
-    }
-
     return (
-      <FilterComponent
-        onFilter={(e) => setFilterText(e.target.value)}
-        onClear={handleClear}
+      <FilterDataTable
         filterText={filterText}
+        toggleResetPagination={toggleResetPagination}
       />
     )
-  }, [filterText, resetPaginationToggle])
+  }, [filterText, toggleResetPagination])
 
   return (
-    <div className="dataTable_container">
-      <DataTable
-        title={title}
-        columns={columns}
-        data={filteredData}
-        onSort={handleSort}
-        pagination
-        paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
-        subHeader
-        subHeaderComponent={filterDataTableMemo}
-        selectableRows
-        persistTableHead
-        dense
-        striped
-        customStyles={customStyles}
-      />
-    </div>
+    <>
+      <div className="dataTable_container">
+        <DataTable
+          title={title}
+          columns={allColumns}
+          data={filteredData}
+          onSort={handleSort}
+          pagination
+          paginationResetDefaultPage={toggleResetPagination}
+          subHeader
+          subHeaderComponent={filterDataTableMemo}
+          persistTableHead
+          dense
+          striped
+          customStyles={customStyles}
+        />
+      </div>
+      <ConfirmDeleteModal deleteAction={onDeleteAction.action} />
+    </>
   )
 }
-CustomDataTable.propTypes = {
+CustomDataTableTest.propTypes = {
   title: PropTypes.string.isRequired,
   headerCellsTitles: PropTypes.object.isRequired,
   filterProperties: PropTypes.array.isRequired,
   tableData: PropTypes.array.isRequired,
+  onDeleteAction: PropTypes.object.isRequired,
 }

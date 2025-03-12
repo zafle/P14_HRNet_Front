@@ -2,35 +2,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import FormInput from '../../components/FormInput/FormInput'
 import MainTitle from '../../components/MainTitle/MainTitle'
 import { employeeSlice } from '../../redux/features/employeeSlice'
-import { getEmployee, getEmployeeValues } from '../../redux/selectors'
+import { getEmployeeValues, getNewEmployeeId } from '../../redux/selectors'
 import { DEPARTMENTS, STATES } from '../../data/employeeForm'
 import FormSelect from '../../components/FormSelect/FormSelect'
 import FormDatePickerStateManager from '../../components/FormDatePickerStateManager/FormDatePickerStateManager'
 import variables from '../../styles/_export.module.scss'
 import './_Home.scss'
 import { employeesSlice } from '../../redux/features/employeesSlice'
-import { nanoid } from '@reduxjs/toolkit'
 import { useState } from 'react'
 import { CustomModal } from '../../components/CustomModal/CustomModal'
-// import { useNavigate } from 'react-router'
 import { formControlSlice } from '../../redux/features/formControlSlice'
 
 export default function Home() {
   const dispatch = useDispatch()
-  // const {
-  //   firstName,
-  //   lastName,
-  //   street,
-  //   city,
-  //   zipCode,
-  //   dateOfBirth,
-  //   startDate,
-  //   state,
-  //   department,
-  // } = useSelector(getEmployee)
-
-  // const employee = useSelector(getEmployee)
-  // console.log('employee', employee)
 
   const {
     firstName,
@@ -43,9 +27,8 @@ export default function Home() {
     state,
     department,
   } = useSelector(getEmployeeValues)
-  // console.log(firstName)
-  // console.log(dateOfBirth)
-  // console.log(state)
+
+  const newEmployeeId = useSelector(getNewEmployeeId)
 
   const { inputBackgroundColored } = variables
 
@@ -57,22 +40,19 @@ export default function Home() {
     return formatedDate
   }
 
-  // const navigate = useNavigate()
-
   const [isModalOpen, setIsModalOpen] = useState(false)
   const onOpen = () => {
     setIsModalOpen(true)
   }
   const onClose = () => {
     setIsModalOpen(false)
-    // navigate('employee-list')
   }
 
   function handleSubmitForm(e) {
     e.preventDefault()
     dispatch(
       employeesSlice.actions.addEmployee({
-        id: nanoid(),
+        id: newEmployeeId,
         firstName,
         lastName,
         startDate: formatDate(startDate),
@@ -94,8 +74,10 @@ export default function Home() {
       <CustomModal
         open={isModalOpen}
         onClose={onClose}
-        message={'Employee Created!'}
-      />
+        // message={'Employee Created!'}
+      >
+        <p>Employee Created!</p>
+      </CustomModal>
       <MainTitle title="Create Employee" />
       <form className="createEmployeeForm" onSubmit={handleSubmitForm}>
         <div className="createEmployeeForm__insideContainer">
