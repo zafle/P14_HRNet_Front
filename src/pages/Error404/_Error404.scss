@@ -1,0 +1,22 @@
+@use '../../styles/variables' as *;
+
+.page-404 {
+  &__illustration {
+    width: 100%;
+    max-width: 650px;
+    display: block;
+    margin: 0 auto;
+  }
+
+  &__link {
+    color: $primary-color;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    display: block;
+
+    &:hover {
+      color: $third-color;
+    }
+  }
+}
