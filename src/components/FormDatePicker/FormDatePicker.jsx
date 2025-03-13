@@ -4,21 +4,22 @@ import { getMonth, getYear } from 'date-fns'
 import range from 'lodash/range'
 import PropTypes from 'prop-types'
 import './_FormDatePicker.scss'
-import { useEffect, useState } from 'react'
+import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getFormControl } from '../../redux/selectors'
 import { formControlSlice } from '../../redux/features/formControlSlice'
-// import { getEmployee } from '../../redux/selectors'
-// import { employeeSlice } from '../../redux/features/employeeSlice'
 
-export default function FormDatePicker({ label, date, setDate, maxDate }) {
+export const FormDatePickerMemo = memo(function FormDatePicker({
+  label,
+  date,
+  setDate,
+  maxDate,
+}) {
   const dispatch = useDispatch()
   const { clearDate } = useSelector(getFormControl)
-  // const { clearDate } = useSelector(getEmployee)
-  // const [clearDate, setClearDate] = useState(false)
 
-  //
-  const startDate = date ? new Date(date) : null
+  console.log('FormDatePicker has re-render from ', label)
+  const startDate = useMemo(() => (date ? new Date(date) : null), [date])
   const [selectedDate, setSelectedDate] = useState(startDate)
 
   useEffect(() => {
@@ -27,16 +28,18 @@ export default function FormDatePicker({ label, date, setDate, maxDate }) {
       setDate(null)
       setSelectedDate(null)
       dispatch(formControlSlice.actions.setClearDate(false))
-      // setClearDate(false)
     }
   }, [clearDate, dispatch, setDate])
 
-  const handleChangeSelectedDate = (date) => {
-    setSelectedDate(date)
-    setDate(date?.toString() || null)
-  }
+  const handleChangeSelectedDate = useCallback(
+    (date) => {
+      setSelectedDate(date)
+      setDate(date?.toString() || null)
+    },
+    [setSelectedDate, setDate]
+  )
 
-  const years = range(1900, getYear(new Date()) + 1, 1)
+  const years = useMemo(() => range(1900, getYear(new Date()) + 1, 1), [])
   const months = [
     'January',
     'February',
@@ -122,9 +125,9 @@ export default function FormDatePicker({ label, date, setDate, maxDate }) {
       />
     </>
   )
-}
+})
 
-FormDatePicker.propTypes = {
+FormDatePickerMemo.propTypes = {
   label: PropTypes.string.isRequired,
   date: PropTypes.string,
   setDate: PropTypes.func.isRequired,

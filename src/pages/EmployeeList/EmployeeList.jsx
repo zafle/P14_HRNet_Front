@@ -18,6 +18,8 @@ export default function EmployeeList() {
   const employeeProperties = useSelector(getEmployeeProperties)
   const allEmployees = useSelector(getAllEmployees)
 
+  console.log('allEmployees', allEmployees)
+
   const handleOnDeleteEmployee = (id) => {
     dispatch(employeesSlice.actions.removeEmployee(id))
   }

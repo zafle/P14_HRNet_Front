@@ -1,37 +1,62 @@
+import { useCallback, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import FormInput from '../../components/FormInput/FormInput'
-import MainTitle from '../../components/MainTitle/MainTitle'
+// slices
 import { employeeSlice } from '../../redux/features/employeeSlice'
-import { getEmployeeValues, getNewEmployeeId } from '../../redux/selectors'
+import { employeesSlice } from '../../redux/features/employeesSlice'
+import { formControlSlice } from '../../redux/features/formControlSlice'
+// selectors
+import {
+  getCity,
+  getDateOfBirth,
+  getDepartment,
+  getFirstName,
+  getLastName,
+  getNewEmployeeId,
+  getStartDate,
+  getState,
+  getStreet,
+  getZipCode,
+} from '../../redux/selectors'
+// data
 import { DEPARTMENTS, STATES } from '../../data/employeeForm'
-import FormSelect from '../../components/FormSelect/FormSelect'
-import FormDatePickerStateManager from '../../components/FormDatePickerStateManager/FormDatePickerStateManager'
+// components
+import MainTitle from '../../components/MainTitle/MainTitle'
+import { FormInputMemo } from '../../components/FormInput/FormInput'
+import { FormSelectMemo } from '../../components/FormSelect/FormSelect'
+import { FormDatePickerStateManagerMemo } from '../../components/FormDatePickerStateManager/FormDatePickerStateManager'
+import { CustomModal } from '../../components/CustomModal/CustomModal'
+// css
 import variables from '../../styles/_export.module.scss'
 import './_Home.scss'
-import { employeesSlice } from '../../redux/features/employeesSlice'
-import { useState } from 'react'
-import { CustomModal } from '../../components/CustomModal/CustomModal'
-import { formControlSlice } from '../../redux/features/formControlSlice'
 
 export default function Home() {
+  const { lightThirdColor } = variables
+
   const dispatch = useDispatch()
 
-  const {
-    firstName,
-    lastName,
-    street,
-    city,
-    zipCode,
-    dateOfBirth,
-    startDate,
-    state,
-    department,
-  } = useSelector(getEmployeeValues)
+  const firstName = useSelector(getFirstName)
+  const lastName = useSelector(getLastName)
+  const street = useSelector(getStreet)
+  const city = useSelector(getCity)
+  const zipCode = useSelector(getZipCode)
+  const dateOfBirth = useSelector(getDateOfBirth)
+  const startDate = useSelector(getStartDate)
+  const state = useSelector(getState)
+  const department = useSelector(getDepartment)
 
   const newEmployeeId = useSelector(getNewEmployeeId)
 
-  const { lightThirdColor } = variables
+  // ############### MODAL STATE ###############
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
+  const onOpen = () => {
+    setIsModalOpen(true)
+  }
+  const onClose = () => {
+    setIsModalOpen(false)
+  }
+
+  // ############### DATE PICKERS UTILS ###############
   const formatDate = (date) => {
     const formatedDate = new Intl.DateTimeFormat('en-GB').format(new Date(date))
     if (formatedDate === '01/01/1970') {
@@ -40,13 +65,9 @@ export default function Home() {
     return formatedDate
   }
 
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const onOpen = () => {
-    setIsModalOpen(true)
-  }
-  const onClose = () => {
-    setIsModalOpen(false)
-  }
+  const today = useMemo(() => new Date(), [])
+
+  // ############### HANDLE FORM ###############
 
   function handleSubmitForm(e) {
     e.preventDefault()
@@ -69,6 +90,62 @@ export default function Home() {
     onOpen()
   }
 
+  const handleFirstNameChange = useCallback(
+    (e) => {
+      dispatch(employeeSlice.actions.setFirstName(e.target.value))
+    },
+    [dispatch]
+  )
+  const handleLastNameChange = useCallback(
+    (e) => {
+      dispatch(employeeSlice.actions.setLastName(e.target.value))
+    },
+    [dispatch]
+  )
+  const handleDateOfBirthChange = useCallback(
+    (date) => {
+      dispatch(employeeSlice.actions.setDateOfBirth(date))
+    },
+    [dispatch]
+  )
+  const handleStartDateChange = useCallback(
+    (date) => {
+      dispatch(employeeSlice.actions.setStartDate(date))
+    },
+    [dispatch]
+  )
+
+  const handleDepartmentChange = useCallback(
+    (option) => {
+      dispatch(employeeSlice.actions.setDepartment(option))
+    },
+    [dispatch]
+  )
+  const handleStreetChange = useCallback(
+    (e) => {
+      dispatch(employeeSlice.actions.setStreet(e.target.value))
+    },
+    [dispatch]
+  )
+  const handleCityChange = useCallback(
+    (e) => {
+      dispatch(employeeSlice.actions.setCity(e.target.value))
+    },
+    [dispatch]
+  )
+  const handleStateChange = useCallback(
+    (option) => {
+      dispatch(employeeSlice.actions.setState(option))
+    },
+    [dispatch]
+  )
+  const handleZipCodeChange = useCallback(
+    (e) => {
+      dispatch(employeeSlice.actions.setZipCode(e.target.value))
+    },
+    [dispatch]
+  )
+
   return (
     <main>
       <CustomModal open={isModalOpen} onClose={onClose}>
@@ -79,45 +156,34 @@ export default function Home() {
         <div className="createEmployeeForm__insideContainer">
           <div className="createEmployeeForm__block">
             <div className="createEmployeeForm__block--insideContainer">
-              <FormInput
+              <FormInputMemo
                 label="First Name"
-                onChange={(e) => {
-                  dispatch(employeeSlice.actions.setFirstName(e.target.value))
-                }}
+                onChange={handleFirstNameChange}
                 inputValue={firstName}
                 background={true}
               />
-              <FormInput
+              <FormInputMemo
                 label="Last Name"
-                onChange={(e) => {
-                  dispatch(employeeSlice.actions.setLastName(e.target.value))
-                }}
+                onChange={handleLastNameChange}
                 inputValue={lastName}
                 background={true}
               />
 
-              <FormDatePickerStateManager
+              <FormDatePickerStateManagerMemo
                 label="Date of Birth"
                 date={dateOfBirth}
-                dispatchDate={(date) =>
-                  dispatch(employeeSlice.actions.setDateOfBirth(date))
-                }
-                maxDate={new Date()}
+                dispatchDate={handleDateOfBirthChange}
+                maxDate={today}
               />
-              <FormDatePickerStateManager
+              <FormDatePickerStateManagerMemo
                 label="Start Date"
                 date={startDate}
-                dispatchDate={(date) =>
-                  dispatch(employeeSlice.actions.setStartDate(date))
-                }
+                dispatchDate={handleStartDateChange}
               />
-
-              <FormSelect
+              <FormSelectMemo
                 label="Department"
                 options={DEPARTMENTS}
-                onChange={(option) =>
-                  dispatch(employeeSlice.actions.setDepartment(option))
-                }
+                onChange={handleDepartmentChange}
                 selectedOption={department}
                 backgroundColor={lightThirdColor}
               />
@@ -126,37 +192,29 @@ export default function Home() {
           <div className="createEmployeeForm__block">
             <fieldset className="createEmployeeForm__fieldset">
               <legend>Address</legend>
-              <FormInput
+              <FormInputMemo
                 label="Street"
-                onChange={(e) => {
-                  dispatch(employeeSlice.actions.setStreet(e.target.value))
-                }}
+                onChange={handleStreetChange}
                 inputValue={street}
               />
-              <FormInput
+              <FormInputMemo
                 label="City"
-                onChange={(e) => {
-                  dispatch(employeeSlice.actions.setCity(e.target.value))
-                }}
+                onChange={handleCityChange}
                 inputValue={city}
               />
-              <FormSelect
+              <FormSelectMemo
                 label="State"
                 options={STATES}
-                onChange={(option) =>
-                  dispatch(employeeSlice.actions.setState(option))
-                }
+                onChange={handleStateChange}
                 selectedOption={state}
                 textField="name"
                 valueField="abbreviation"
                 backgroundColor="white"
               />
-              <FormInput
+              <FormInputMemo
                 type="number"
                 label="Zip Code"
-                onChange={(e) => {
-                  dispatch(employeeSlice.actions.setZipCode(e.target.value))
-                }}
+                onChange={handleZipCodeChange}
                 inputValue={zipCode}
               />
             </fieldset>

@@ -2,9 +2,9 @@ import { SelectMenu } from '@zafle/select_menu'
 import PropTypes from 'prop-types'
 import './_FormSelect.scss'
 import variables from '../../styles/_export.module.scss'
-import { useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 
-export default function FormSelect({
+export const FormSelectMemo = memo( function FormSelect({
   label,
   options,
   onChange,
@@ -28,6 +28,7 @@ export default function FormSelect({
     setComponentSelected(option)
     onChange(option)
   }
+  console.log('FormSelect has re-render from ', label)
 
   useEffect(() => {
     if (selectedOption !== componentSelected) {
@@ -67,9 +68,9 @@ export default function FormSelect({
       />
     </>
   )
-}
+})
 
-FormSelect.propTypes = {
+FormSelectMemo.propTypes = {
   label: PropTypes.string.isRequired,
   options: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,

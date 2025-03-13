@@ -1,6 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 
-// const employeesAdapter = createEntityAdapter()
 const employeesAdapter = createEntityAdapter({
   selectId: (employee) => employee.id,
 })
@@ -20,6 +19,3 @@ export const { addEmployee, removeEmployee } = employeesSlice.actions
 export const employeesSelector = employeesAdapter.getSelectors(
   (state) => state.employees
 )
-// export const getAllEmployees = (state) => {
-//   return state?.employees ? employeesSelectors.selectAll(state.employees) : []
-// }
