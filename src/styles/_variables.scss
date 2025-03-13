@@ -3,6 +3,7 @@
 $primary-color: #5e6e21;
 $secondary-color: #72852c;
 $third-color: #98ac3b;
+$light-third-color: color.adjust($third-color, $lightness: 40%);
 $complementary-primary: #4f1848;
 
 $main-font: 'Montserrat';
@@ -16,4 +17,3 @@ $input-margin-top: 8px;
 $input-vertical-padding: 8px;
 $input-horizontal-padding: 10px;
 $input-font-size: 16px;
-$input-background-colored: color.adjust($third-color, $lightness: 40%);

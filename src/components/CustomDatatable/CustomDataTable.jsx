@@ -9,15 +9,15 @@ import { filterContext } from '../../contexts/filterContext'
 import DeleteButton from './components/DeleteButton/DeleteButton'
 
 export default function CustomDataTable({
-  title,
-  headerCellsTitles,
+  headerCellsData,
   filterProperties,
   tableData,
   onDeleteAction,
+  ariaLabel,
 }) {
   const { filterText, toggleResetPagination } = useContext(filterContext)
   const [sortedByColumn, setSortedByColumn] = useState(1)
-  const { thirdColor, inputBackgroundColored } = variables
+  const { thirdColor, lightThirdColor } = variables
 
   // Functions for sort functionality
   const handleSort = (column) => {
@@ -42,16 +42,20 @@ export default function CustomDataTable({
       cell: (row) => (
         <DeleteButton row={row} nameProperty={onDeleteAction.nameProperty} />
       ),
+      maxWidth: '40px',
+      minWidth: '40px',
     },
   ]
 
-  const titlesColumns = Object.entries(headerCellsTitles).map(
-    ([key, value]) => ({
-      name: value,
-      selector: (row) => row[key],
-      sortable: true,
-    })
-  )
+  const titlesColumns = Object.entries(headerCellsData).map(([key, value]) => ({
+    name: value.title,
+    selector: (row) => row[key],
+    sortable: true,
+    minWidth: '40px',
+    maxWidth: value.width,
+    wrap: true,
+  }))
+  console.log('columns', titlesColumns)
 
   const allColumns = deleteColumn.concat(titlesColumns)
 
@@ -69,6 +73,7 @@ export default function CustomDataTable({
       style: {
         paddingLeft: '8px',
         paddingRight: '8px',
+        fontWeight: '700',
       },
     },
     cells: {
@@ -84,7 +89,7 @@ export default function CustomDataTable({
         },
       },
       stripedStyle: {
-        backgroundColor: `${inputBackgroundColored}`,
+        backgroundColor: `${lightThirdColor}`,
       },
     },
   }
@@ -103,7 +108,6 @@ export default function CustomDataTable({
     <>
       <div className="dataTable_container">
         <DataTable
-          title={title}
           columns={allColumns}
           data={filteredData}
           onSort={handleSort}
@@ -115,15 +119,15 @@ export default function CustomDataTable({
           dense
           striped
           customStyles={customStyles}
+          ariaLabel={ariaLabel}
         />
       </div>
       <ConfirmDeleteModal deleteAction={onDeleteAction.action} />
     </>
   )
 }
-CustomDataTableTest.propTypes = {
-  title: PropTypes.string.isRequired,
-  headerCellsTitles: PropTypes.object.isRequired,
+CustomDataTable.propTypes = {
+  headerCellsData: PropTypes.object.isRequired,
   filterProperties: PropTypes.array.isRequired,
   tableData: PropTypes.array.isRequired,
   onDeleteAction: PropTypes.object.isRequired,

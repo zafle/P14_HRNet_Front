@@ -30,7 +30,7 @@ export default function Home() {
 
   const newEmployeeId = useSelector(getNewEmployeeId)
 
-  const { inputBackgroundColored } = variables
+  const { lightThirdColor } = variables
 
   const formatDate = (date) => {
     const formatedDate = new Intl.DateTimeFormat('en-GB').format(new Date(date))
@@ -71,11 +71,7 @@ export default function Home() {
 
   return (
     <main>
-      <CustomModal
-        open={isModalOpen}
-        onClose={onClose}
-        // message={'Employee Created!'}
-      >
+      <CustomModal open={isModalOpen} onClose={onClose}>
         <p>Employee Created!</p>
       </CustomModal>
       <MainTitle title="Create Employee" />
@@ -123,7 +119,7 @@ export default function Home() {
                   dispatch(employeeSlice.actions.setDepartment(option))
                 }
                 selectedOption={department}
-                backgroundColor={inputBackgroundColored}
+                backgroundColor={lightThirdColor}
               />
             </div>
           </div>

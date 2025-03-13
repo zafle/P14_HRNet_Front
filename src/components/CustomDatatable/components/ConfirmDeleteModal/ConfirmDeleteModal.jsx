@@ -1,6 +1,7 @@
 import { CustomModal } from '../../../CustomModal/CustomModal'
 import { deleteModalContext } from '../../../../contexts/deleteModalContext'
 import { useContext } from 'react'
+import './_ConfirmDeleteModal.scss'
 
 export default function ConfirmDeleteModal({ deleteAction }) {
   const {
@@ -23,8 +24,7 @@ export default function ConfirmDeleteModal({ deleteAction }) {
       <div className="confirm-delete-modal">
         <p>
           You&apos;re about to delete permanently:
-          <br />
-          {itemToDeleteName}
+          <span className="confirm-delete-modal__name">{itemToDeleteName}</span>
         </p>
         <p>Do you confirm suppression ?</p>
         <button

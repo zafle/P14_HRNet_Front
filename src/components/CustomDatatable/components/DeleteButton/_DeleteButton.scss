@@ -1,0 +1,10 @@
+
+.datatable__delete-button {
+  border: none;
+  background-color: unset;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(0.9);
+  }
+}

@@ -1,0 +1,18 @@
+@use '../../../../styles/variables' as *;
+
+.datatable-filter {
+  &__input {
+    padding: 5px;
+    border: 2px solid $primary-color;
+  }
+  &__button {
+    border: none;
+    background-color: $primary-color;
+    color: white;
+    height: 30px;
+    width: 30px;
+    margin-left: 5px;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+}

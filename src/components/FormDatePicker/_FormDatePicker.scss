@@ -23,7 +23,7 @@
 
   &__input-container input {
     @include input-style;
-    background-color: $input-background-colored;
+    background-color: $light-third-color;
     margin-bottom: 24px;
   }
 
@@ -66,7 +66,7 @@
       background-color: $primary-color;
     }
     &:not([aria-disabled='true']):hover {
-      background-color: $input-background-colored;
+      background-color: $light-third-color;
     }
     &--outside-month {
       color: #b8b8b8;

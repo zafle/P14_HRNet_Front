@@ -10,9 +10,10 @@ export const getEmployeeValues = (state) => {
   }, {})
 }
 
-export const getEmployeeTitles = (state) => {
+export const getEmployeeCellData = (state) => {
+  console.log('state.employee', state.employee)
   return Object.entries(state.employee).reduce((acc, [key, value]) => {
-    acc[key] = value.title
+    acc[key] = { title: value.title, width: value.width }
     return acc
   }, {})
 }
