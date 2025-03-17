@@ -2,6 +2,11 @@ import { Link } from 'react-router'
 import Illustration from '../../assets/404-Error-illustration.svg'
 import './_Error404.scss'
 
+/**
+ * Displays Error 404 page
+ *
+ * @returns {React.ReactElement}
+ */
 export default function Error404() {
   return (
     <main>

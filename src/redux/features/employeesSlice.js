@@ -4,6 +4,10 @@ const employeesAdapter = createEntityAdapter({
   selectId: (employee) => employee.id,
 })
 
+/**
+ * employeesSlice stores all registered employees
+ * - Used to display employees in CustomDataTable
+ */
 export const employeesSlice = createSlice({
   name: 'employees',
   initialState: employeesAdapter.getInitialState(),

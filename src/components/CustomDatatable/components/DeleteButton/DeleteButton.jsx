@@ -1,19 +1,30 @@
 import { useContext } from 'react'
 import { deleteModalContext } from '../../../../contexts/deleteModalContext'
+import PropTypes from 'prop-types'
 import variables from '../../../../styles/_export.module.scss'
 import './_DeleteButton.scss'
 
+/**
+ * Displays the delete icon in Data table
+ *
+ * @param {Object} row the button's Data Table row
+ * @param {string} nameProperty the row property value to retrieve
+ *
+ * @returns {React.ReactElement} A Delete button
+ */
 export default function DeleteButton({ row, nameProperty }) {
+  // get scss variables
   const { primaryColor } = variables
+
+  // get context
   const {
     defineItemToDeleteId,
     defineItemToDeleteName,
     toggleConfirmDeleteModal,
   } = useContext(deleteModalContext)
 
+  // Creates on click function
   const handleOnClick = (id, name) => {
-    console.log('id', id)
-    console.log('name', name)
     defineItemToDeleteId(id)
     defineItemToDeleteName(name)
     toggleConfirmDeleteModal()
@@ -44,4 +55,9 @@ export default function DeleteButton({ row, nameProperty }) {
       </svg>
     </button>
   )
+}
+
+DeleteButton.propTypes = {
+  row: PropTypes.object,
+  nameProperty: PropTypes.string,
 }

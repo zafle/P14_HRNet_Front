@@ -1,8 +1,16 @@
-import { CustomModal } from '../../../CustomModal/CustomModal'
-import { deleteModalContext } from '../../../../contexts/deleteModalContext'
 import { useContext } from 'react'
+import { deleteModalContext } from '../../../../contexts/deleteModalContext'
+import { CustomModal } from '../../../CustomModal/CustomModal'
+import PropTypes from 'prop-types'
 import './_ConfirmDeleteModal.scss'
 
+/**
+ * Displays a modal to confirm delete row in Data Table
+ *
+ * @param {Function} deleteAction the function to call to delete a row
+ *
+ * @returns {React.ReactElement} A CustomModal to confirm delete
+ */
 export default function ConfirmDeleteModal({ deleteAction }) {
   const {
     isConfirmDeleteModalOpen,
@@ -42,4 +50,8 @@ export default function ConfirmDeleteModal({ deleteAction }) {
       </div>
     </CustomModal>
   )
+}
+
+ConfirmDeleteModal.propTypes = {
+  deleteAction: PropTypes.func.isRequired,
 }

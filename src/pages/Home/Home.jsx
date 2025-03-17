@@ -29,6 +29,13 @@ import { CustomModal } from '../../components/CustomModal/CustomModal'
 import variables from '../../styles/_export.module.scss'
 import './_Home.scss'
 
+/**
+ * Displays Homepage
+ * - Displays Employee form
+ * - Displays a modal on submit
+ *
+ * @returns {React.ReactElement} Home page with Create Employee form
+ */
 export default function Home() {
   const { lightThirdColor } = variables
 
@@ -49,10 +56,10 @@ export default function Home() {
   // ############### MODAL STATE ###############
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const onOpen = () => {
+  const onOpenModal = () => {
     setIsModalOpen(true)
   }
-  const onClose = () => {
+  const onCloseModal = () => {
     setIsModalOpen(false)
   }
 
@@ -69,7 +76,7 @@ export default function Home() {
 
   // ############### HANDLE FORM ###############
 
-  function handleSubmitForm(e) {
+  const handleSubmitForm = (e) => {
     e.preventDefault()
     dispatch(
       employeesSlice.actions.addEmployee({
@@ -87,7 +94,7 @@ export default function Home() {
     )
     dispatch(employeeSlice.actions.clearEmployee())
     dispatch(formControlSlice.actions.setClearDate(true))
-    onOpen()
+    onOpenModal()
   }
 
   const handleFirstNameChange = useCallback(
@@ -148,7 +155,7 @@ export default function Home() {
 
   return (
     <main>
-      <CustomModal open={isModalOpen} onClose={onClose}>
+      <CustomModal open={isModalOpen} onClose={onCloseModal}>
         <p>Employee Created!</p>
       </CustomModal>
       <MainTitle title="Create Employee" />

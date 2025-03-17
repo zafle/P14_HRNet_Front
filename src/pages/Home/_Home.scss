@@ -1,6 +1,6 @@
+@use 'sass:color';
 @use '../../styles/variables' as *;
 @use '../../styles/mixins' as *;
-@use 'sass:color';
 
 .createEmployeeForm {
   max-width: 704px;
@@ -69,5 +69,6 @@
     border-radius: 5px;
     display: block;
     margin: 0 auto;
+    cursor: pointer;
   }
 }

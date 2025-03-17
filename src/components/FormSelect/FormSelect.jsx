@@ -1,10 +1,25 @@
 import { SelectMenu } from '@zafle/select_menu'
-import PropTypes from 'prop-types'
-import './_FormSelect.scss'
-import variables from '../../styles/_export.module.scss'
 import { memo, useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+import variables from '../../styles/_export.module.scss'
+import './_FormSelect.scss'
 
-export const FormSelectMemo = memo( function FormSelect({
+/**
+ * Displays a custom SelectMenu
+ * - Used in Home page form Create Employee
+ *
+ * @param {string} label SelectMenu label
+ * @param {Array.<string|Object>} options SelectMenu data for dropdown options
+ * @param {function} onChange function to use when an option is selected
+ * @param {string} selectedOption the selected option state
+ * @param {string} textField the property name for options text in the options Array data
+ * @param {string} valueField the property name for options values in the options Array data
+ * @param {string} backgroundColor background color for SelectMenu input
+ *
+ * @returns {React.ReactElement} customized SelectMenu
+ * }
+ */
+export const FormSelectMemo = memo(function FormSelect({
   label,
   options,
   onChange,
@@ -13,6 +28,7 @@ export const FormSelectMemo = memo( function FormSelect({
   valueField,
   backgroundColor,
 }) {
+  // gets scss variables
   const {
     inputMarginTop,
     inputVerticalPadding,
@@ -23,13 +39,19 @@ export const FormSelectMemo = memo( function FormSelect({
     primaryColor,
   } = variables
 
+  // Creates a local state for the selected option
+  // - Allows to enable default selected option from selectMenu
+  // - (Otherwise reset form does not reset on the default value)
   const [componentSelected, setComponentSelected] = useState('')
+
+  // // Updates local and redux state on change
   const handleChange = (option) => {
     setComponentSelected(option)
     onChange(option)
   }
-  console.log('FormSelect has re-render from ', label)
 
+  // On reset form, this will give the default selected value to the local state
+  // (if not empty)
   useEffect(() => {
     if (selectedOption !== componentSelected) {
       setComponentSelected(selectedOption)
@@ -72,7 +94,40 @@ export const FormSelectMemo = memo( function FormSelect({
 
 FormSelectMemo.propTypes = {
   label: PropTypes.string.isRequired,
-  options: PropTypes.array.isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      // without values
+      PropTypes.string,
+      // with values
+      PropTypes.shape({
+        // textField
+        [PropTypes.string]: PropTypes.string,
+        // valueField
+        [PropTypes.string]: PropTypes.string,
+      }),
+      // optgroups without values
+      PropTypes.shape({
+        // labelField
+        [PropTypes.string]: PropTypes.string,
+        // options array
+        [PropTypes.string]: PropTypes.arrayOf(PropTypes.string),
+      }),
+      //optgroup with values
+      PropTypes.shape({
+        // labelField
+        [PropTypes.string]: PropTypes.string,
+        // options array
+        [PropTypes.string]: PropTypes.arrayOf(
+          PropTypes.shape({
+            // textField
+            [PropTypes.string]: PropTypes.string,
+            // valueField
+            [PropTypes.string]: PropTypes.string,
+          })
+        ),
+      }),
+    ])
+  ).isRequired,
   onChange: PropTypes.func.isRequired,
   selectedOption: PropTypes.string.isRequired,
   backgroundColor: PropTypes.string.isRequired,

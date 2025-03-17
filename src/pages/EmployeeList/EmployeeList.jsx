@@ -1,44 +1,44 @@
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  getAllEmployees,
-  getEmployeeCellData,
-  getEmployeeProperties,
-} from '../../redux/selectors'
-import { employeesSlice } from '../../redux/features/employeesSlice'
-import CustomDataTable from '../../components/CustomDataTable/CustomDataTable'
+// Contexts
 import FilterContextProvider from '../../contexts/FilterContextProvider/FilterContextProvider'
 import DeleteModalContextProvider from '../../contexts/DeleteModalContextProvider/DeleteModalContextProvider'
+// Slice
+import { employeesSlice } from '../../redux/features/employeesSlice'
+// Selectors
+import { getAllEmployees } from '../../redux/selectors'
+// Data
+import { employeesDataTableProperties } from '../../data/employeesDataTable'
+// Components
+import CustomDataTable from '../../components/CustomDataTable/CustomDataTable'
 import MainTitle from '../../components/MainTitle/MainTitle'
 
+/**
+ * Displays employee-list page
+ * - Displays CustomDataTable with all employees
+ *
+ * @returns {React.ReactElement} employee-list page
+ */
 export default function EmployeeList() {
   const dispatch = useDispatch()
 
-  // for data table content
-  const employeeCellData = useSelector(getEmployeeCellData)
-  const employeeProperties = useSelector(getEmployeeProperties)
+  // Gets data table content
   const allEmployees = useSelector(getAllEmployees)
 
-  console.log('allEmployees', allEmployees)
-
+  // Creates the function to use on delete employee Data Table row
   const handleOnDeleteEmployee = (id) => {
     dispatch(employeesSlice.actions.removeEmployee(id))
   }
 
-  const onDeleteActionData = {
-    nameProperty: 'firstName',
-    action: handleOnDeleteEmployee,
-  }
-  console.log('employeeCellData', employeeCellData)
   return (
     <main>
       <MainTitle title="Current Employees" />
       <FilterContextProvider>
         <DeleteModalContextProvider>
           <CustomDataTable
-            headerCellsData={employeeCellData}
-            filterProperties={employeeProperties}
+            headerCellsData={employeesDataTableProperties}
             tableData={allEmployees}
-            onDeleteAction={onDeleteActionData}
+            onDelete={handleOnDeleteEmployee}
+            nameProperty="firstName"
             ariaLabel="Current employees data table"
           />
         </DeleteModalContextProvider>

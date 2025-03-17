@@ -2,6 +2,11 @@ import { Link, NavLink } from 'react-router'
 import logo from '../../assets/logo_wealth_health.png'
 import './_Header.scss'
 
+/**
+ * Displays the main App Header
+ *
+ * @returns {React.ReactElement} Main App Header
+ */
 function Header() {
   return (
     <header className="mainheader">

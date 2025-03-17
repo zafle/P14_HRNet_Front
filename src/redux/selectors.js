@@ -17,63 +17,20 @@ import { employeesSelector } from './features/employeesSlice'
  * @param {Object} state.employee.city
  * @param {Object} state.employee.state
  * @param {Object} state.employee.zipCode
- * @param {string} state.employee.[key].title Title used in EmployeeList CustomDataTable header cells
- * @param {string} state.employee.[key].width Width used in EmployeeList CustomDataTable to set maxWidth columns
- * @param {string} state.employee.[key].value Property value used in Home form and saved in employeesSlice
  *
  * @returns {Object} employeeSlice state
  */
 export const getEmployee = (state) => state.employee
 
-export const getFirstName = (state) => state.employee.firstName.value
-export const getLastName = (state) => state.employee.lastName.value
-export const getStartDate = (state) => state.employee.startDate.value
-export const getDepartment = (state) => state.employee.department.value
-export const getDateOfBirth = (state) => state.employee.dateOfBirth.value
-export const getStreet = (state) => state.employee.street.value
-export const getCity = (state) => state.employee.city.value
-export const getState = (state) => state.employee.state.value
-export const getZipCode = (state) => state.employee.zipCode.value
-
-/**
- * Returns the 'value' property for each employeeSlice property [key]
- *
- * @returns {Array.<{[key]: string }>} Property value used in Home form and saved in employeesSlice
- */
-// export const getEmployeeValues = createSelector([getEmployee], (employee) => {
-//   return Object.entries(employee).reduce((acc, [key, value]) => {
-//     acc[key] = value.value
-//     return acc
-//   }, {})
-// })
-
-/**
- * Returns the 'title' and 'width' properties for each employeeSlice property [key]
- * - Title used in EmployeeList CustomDataTable header cells
- * - Width used in EmployeeList CustomDataTable to set maxWidth columns
- *
- * @returns {Array.<{[key]: {title: string, width: string }}>}
- *
- */
-export const getEmployeeCellData = createSelector([getEmployee], (employee) => {
-  return Object.entries(employee).reduce((acc, [key, value]) => {
-    acc[key] = { title: value.title, width: value.width }
-    return acc
-  }, {})
-})
-
-/**
- * Returns all the employeeSlice properties strings
- * - Used in CustomDataTable filter functionnality
- *
- * @returns {Array.<string>}
- */
-export const getEmployeeProperties = createSelector(
-  [getEmployee],
-  (employee) => {
-    return Object.keys(employee)
-  }
-)
+export const getFirstName = (state) => state.employee.firstName
+export const getLastName = (state) => state.employee.lastName
+export const getStartDate = (state) => state.employee.startDate
+export const getDepartment = (state) => state.employee.department
+export const getDateOfBirth = (state) => state.employee.dateOfBirth
+export const getStreet = (state) => state.employee.street
+export const getCity = (state) => state.employee.city
+export const getState = (state) => state.employee.state
+export const getZipCode = (state) => state.employee.zipCode
 
 //  ############# EMPLOYEES SLICE SELECTORS #############
 

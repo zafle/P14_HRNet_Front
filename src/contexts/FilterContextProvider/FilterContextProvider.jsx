@@ -1,17 +1,25 @@
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { filterContext } from '../filterContext'
+import PropTypes from 'prop-types'
 
+/**
+ * Creates a context for filter functionality in CustomDataTable component
+ *
+ * @param {React.ReactNode} children
+ *
+ * @returns {JSX.Element} filterContext Provider
+ */
 export default function FilterContextProvider({ children }) {
   const [filterText, setFilterText] = useState('')
   const [resetPagination, setResetPagination] = useState(false)
 
-  const defineFilterText = useCallback((text) => {
+  const defineFilterText = (text) => {
     setFilterText(text)
-  }, [])
+  }
 
-  const toggleResetPagination = useCallback(() => {
+  const toggleResetPagination = () => {
     setResetPagination(!resetPagination)
-  }, [resetPagination])
+  }
 
   return (
     <filterContext.Provider
@@ -25,4 +33,8 @@ export default function FilterContextProvider({ children }) {
       {children}
     </filterContext.Provider>
   )
+}
+
+FilterContextProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 }
