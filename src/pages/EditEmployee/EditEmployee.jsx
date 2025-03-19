@@ -30,12 +30,31 @@ export default function EditEmployee() {
   }
 
   // ############### BLOCKING NAVIGATION ###############
+  useEffect(() => {
+    console.log('hello')
+    const message = 'Are you sure ?'
+    const handleBeforeUnload = (event) => {
+      event.preventDefault()
+      event.returnValue = message
+      return message
+    }
+
+    window.addEventListener('beforeunload', handleBeforeUnload)
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+    }
+  }, [])
 
   // ############### BLOCKING NAVIGATION ###############
 
   const employee = useSelector((state) =>
     getCreatedEmployeeById(state, employeeId)
   )
+
+  // useEffect(() => {
+  //   employee === undefined && navigate('/Error404')
+  // }, [employee, navigate])
 
   const formatDate = (dateToFormat) => {
     const formatedDate =
@@ -51,6 +70,8 @@ export default function EditEmployee() {
   }
 
   useEffect(() => {
+    // console.log('employee', employee)
+
     if (!isSetEditedEmployee) {
       dispatch(
         employeeSlice.actions.editEmployee({

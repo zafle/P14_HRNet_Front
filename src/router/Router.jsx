@@ -1,21 +1,18 @@
-import { BrowserRouter, Route, Routes } from 'react-router'
-import Header from '../components/Header/Header'
+import { createBrowserRouter } from 'react-router'
+import Layout from '../Layout/Layout'
 import Home from '../pages/Home/Home'
+import EditEmployee from '../pages/EditEmployee/EditEmployee'
 import EmployeeList from '../pages/EmployeeList/EmployeeList'
 import Error404 from '../pages/Error404/Error404'
-import EditEmployee from '../pages/EditEmployee/EditEmployee'
 
-function Router() {
-  return (
-    <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/edit-employee/:employeeId" element={<EditEmployee />} />
-        <Route path="/employee-list" element={<EmployeeList />} />
-        <Route path="*" element={<Error404 />} />
-      </Routes>
-    </BrowserRouter>
-  )
-}
-export default Router
+export const router = createBrowserRouter([
+  {
+    element: <Layout />,
+    children: [
+      { path: '/', element: <Home /> },
+      { path: '/edit-employee/:employeeId', element: <EditEmployee /> },
+      { path: '/employee-list', element: <EmployeeList /> },
+      { path: '*', element: <Error404 /> },
+    ],
+  },
+])
