@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 // Contexts
 import FilterContextProvider from '../../contexts/FilterContextProvider/FilterContextProvider'
 import DeleteModalContextProvider from '../../contexts/DeleteModalContextProvider/DeleteModalContextProvider'
-// Slice
+// Slices
 import { employeesSlice } from '../../redux/features/employeesSlice'
 // Selectors
 import { getAllEmployees } from '../../redux/selectors'
@@ -11,6 +11,7 @@ import { employeesDataTableProperties } from '../../data/employeesDataTable'
 // Components
 import CustomDataTable from '../../components/CustomDataTable/CustomDataTable'
 import MainTitle from '../../components/MainTitle/MainTitle'
+import { useNavigate } from 'react-router'
 
 /**
  * Displays employee-list page
@@ -20,6 +21,7 @@ import MainTitle from '../../components/MainTitle/MainTitle'
  */
 export default function EmployeeList() {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   // Gets data table content
   const allEmployees = useSelector(getAllEmployees)
@@ -27,6 +29,11 @@ export default function EmployeeList() {
   // Creates the function to use on delete employee Data Table row
   const handleOnDeleteEmployee = (id) => {
     dispatch(employeesSlice.actions.removeEmployee(id))
+  }
+
+  // Creates the function to use on edit employee Data Table
+  const handleOnEditEmployee = (id) => {
+    navigate(`/edit-employee/${id}`)
   }
 
   return (
@@ -39,6 +46,7 @@ export default function EmployeeList() {
             tableData={allEmployees}
             onDelete={handleOnDeleteEmployee}
             nameProperty="firstName"
+            onEdit={handleOnEditEmployee}
             ariaLabel="Current employees data table"
           />
         </DeleteModalContextProvider>

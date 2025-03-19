@@ -3,7 +3,7 @@ import { filterContext } from '../../contexts/filterContext'
 import DataTable from 'react-data-table-component'
 import ConfirmDeleteModal from './components/ConfirmDeleteModal/ConfirmDeleteModal'
 import { FilterDataTableMemo } from './components/FilterDataTable/FilterDataTable'
-// import FilterDataTable from './components/FilterDataTable/FilterDataTable'
+import EditButton from './components/EditButton/EditButton'
 import DeleteButton from './components/DeleteButton/DeleteButton'
 import PropTypes from 'prop-types'
 import variables from '../../styles/_export.module.scss'
@@ -30,6 +30,7 @@ export default function CustomDataTable({
   tableData,
   onDelete,
   nameProperty,
+  onEdit,
   ariaLabel,
 }) {
   // scss variables
@@ -62,9 +63,13 @@ export default function CustomDataTable({
   }, [sortedByColumn])
 
   // creates table columns data
-  const deleteColumn = [
+  const actionsColumn = [
     {
       cell: (row) => <DeleteButton row={row} nameProperty={nameProperty} />,
+      width: '40px',
+    },
+    {
+      cell: (row) => <EditButton row={row} editAction={onEdit} />,
       width: '40px',
     },
   ]
@@ -77,7 +82,7 @@ export default function CustomDataTable({
     wrap: true,
   }))
 
-  const allColumns = deleteColumn.concat(titlesColumns)
+  const allColumns = actionsColumn.concat(titlesColumns)
 
   // Creates filtered content data
   const filteredData = tableData.filter((item) =>
@@ -142,5 +147,6 @@ CustomDataTable.propTypes = {
   tableData: PropTypes.array.isRequired,
   onDelete: PropTypes.func.isRequired,
   nameProperty: PropTypes.string.isRequired,
+  onEdit: PropTypes.func.isRequired,
   ariaLabel: PropTypes.string.isRequired,
 }

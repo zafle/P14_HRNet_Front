@@ -48,9 +48,9 @@ export const FormDatePickerMemo = memo(function FormDatePicker({
   }, [clearDate, dispatch, setDate])
 
   const handleChangeSelectedDate = useCallback(
-    (date) => {
-      setSelectedDate(date)
-      setDate(date?.toString() || null)
+    (newSelectedDate) => {
+      setSelectedDate(newSelectedDate)
+      setDate(newSelectedDate?.toString() || null)
     },
     [setSelectedDate, setDate]
   )
@@ -74,6 +74,7 @@ export const FormDatePickerMemo = memo(function FormDatePicker({
     'December',
   ]
 
+  // Creates a custom calendar header
   const customHeader = ({
     date,
     changeYear,
@@ -133,6 +134,7 @@ export const FormDatePickerMemo = memo(function FormDatePicker({
       <label className="datePickerFormLabel">{label}</label>
 
       <DatePicker
+        locale="en-GB"
         renderCustomHeader={customHeader}
         selected={selectedDate}
         onChange={handleChangeSelectedDate}

@@ -17,7 +17,6 @@ import './_FormSelect.scss'
  * @param {string} backgroundColor background color for SelectMenu input
  *
  * @returns {React.ReactElement} customized SelectMenu
- * }
  */
 export const FormSelectMemo = memo(function FormSelect({
   label,
@@ -44,16 +43,34 @@ export const FormSelectMemo = memo(function FormSelect({
   // - (Otherwise reset form does not reset on the default value)
   const [componentSelected, setComponentSelected] = useState('')
 
-  // // Updates local and redux state on change
+  const [defaultSelected, setDefaultSelected] = useState('')
+  const [resetToDefault, setResetToDefault] = useState()
+
+  // Set default selected option only once when component mounts
+  useEffect(() => {
+    // if form is to create
+    if (selectedOption === '') {
+      setDefaultSelected('first')
+      setResetToDefault(true)
+      // if form is to update
+    } else {
+      setDefaultSelected(selectedOption)
+      setResetToDefault(false)
+    }
+    // NOTE: Run effect only when component mounts,
+    // please recheck dependencies if effect is updated.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // Updates local and redux state on change
   const handleChange = (option) => {
     setComponentSelected(option)
     onChange(option)
   }
 
-  // On reset form, this will give the default selected value to the local state
-  // (if not empty)
+  // Reset local state when reset form
   useEffect(() => {
-    if (selectedOption !== componentSelected) {
+    if (selectedOption === '' && componentSelected !== '') {
       setComponentSelected(selectedOption)
     }
     // NOTE: Run effect only when selectedOption changes,
@@ -66,28 +83,30 @@ export const FormSelectMemo = memo(function FormSelect({
       <label htmlFor={`select-${label}`} className="selectFormLabel">
         {label}
       </label>
-      <SelectMenu
-        id={`select-${label}`}
-        options={options}
-        onChangeValue={handleChange}
-        selectedOption={componentSelected}
-        resetToDefault={true}
-        textField={textField ? textField : ''}
-        valueField={valueField ? valueField : ''}
-        defaultSelectedOption="first"
-        border="unset"
-        containerMargin={`${inputMarginTop} 0 ${formItemMarginBottom} 0`}
-        borderRadius="0"
-        inputBackground={backgroundColor}
-        boxShadow="10px 10px 15px rgba(0, 0, 0, 0.2)"
-        inputVerticalPadding={inputVerticalPadding}
-        inputHorizontalPadding={inputHorizontalPadding}
-        maxWidth={inputMaxWidth}
-        optionFontSize={inputFontSize}
-        hoveredOptionBackground={primaryColor}
-        boxShadowOnOpen={true}
-        dropdownMaxHeight="250px"
-      />
+      {defaultSelected !== '' && resetToDefault !== undefined && (
+        <SelectMenu
+          id={`select-${label}`}
+          options={options}
+          onChangeValue={handleChange}
+          selectedOption={componentSelected}
+          resetToDefault={resetToDefault}
+          textField={textField ? textField : ''}
+          valueField={valueField ? valueField : ''}
+          defaultSelectedOption={defaultSelected}
+          border="unset"
+          containerMargin={`${inputMarginTop} 0 ${formItemMarginBottom} 0`}
+          borderRadius="0"
+          inputBackground={backgroundColor}
+          boxShadow="10px 10px 15px rgba(0, 0, 0, 0.2)"
+          inputVerticalPadding={inputVerticalPadding}
+          inputHorizontalPadding={inputHorizontalPadding}
+          maxWidth={inputMaxWidth}
+          optionFontSize={inputFontSize}
+          hoveredOptionBackground={primaryColor}
+          boxShadowOnOpen={true}
+          dropdownMaxHeight="250px"
+        />
+      )}
     </>
   )
 })

@@ -46,7 +46,14 @@ export const employeeSlice = createSlice({
     setDepartment(state, action) {
       state.department = action.payload
     },
+    editEmployee(state, action) {
+      return {
+        ...state,
+        ...action.payload,
+      }
+    },
     clearEmployee() {
+      console.log('employee cleared')
       return {
         ...initialState,
       }

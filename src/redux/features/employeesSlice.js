@@ -14,10 +14,12 @@ export const employeesSlice = createSlice({
   reducers: {
     addEmployee: employeesAdapter.addOne,
     removeEmployee: employeesAdapter.removeOne,
+    updateEmployee: employeesAdapter.updateOne,
   },
 })
 // creates actions
-export const { addEmployee, removeEmployee } = employeesSlice.actions
+export const { addEmployee, removeEmployee, updateEmployee } =
+  employeesSlice.actions
 
 // creates selectors
 export const employeesSelector = employeesAdapter.getSelectors(

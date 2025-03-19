@@ -55,6 +55,9 @@ export const getZipCode = (state) => state.employee.zipCode
  */
 export const getAllEmployees = (state) => employeesSelector.selectAll(state)
 
+export const getCreatedEmployeeById = (state, id) =>
+  employeesSelector.selectById(state, id)
+
 /**
  * Retrieves all employees ids and return the max Id + 1
  * - Used in Home to register a new employee with a new ID

@@ -9,3 +9,17 @@
   border: none;
   font-size: $input-font-size;
 }
+
+@mixin datatable-button {
+  border: none;
+  background-color: unset;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(0.9);
+  }
+
+  path {
+    fill: $primary-color;
+  }
+}

@@ -20,7 +20,6 @@ export const FormInputMemo = memo(function FormInput({
   inputValue,
   background,
 }) {
-  console.log('rendered', label)
   return (
     <label className="formLabel">
       {label}
