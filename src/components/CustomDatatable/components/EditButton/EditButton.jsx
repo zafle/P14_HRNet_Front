@@ -1,6 +1,14 @@
 import PropTypes from 'prop-types'
 import './_EditButton.scss'
 
+/**
+ * Displays the edit button in Data table
+ *
+ * @param {Object} row the button's Data Table row
+ * @param {function} editAction the function to call on click button
+ *
+ * @returns
+ */
 export default function EditButton({ row, editAction }) {
   const handleOnClick = () => {
     editAction(row.id)

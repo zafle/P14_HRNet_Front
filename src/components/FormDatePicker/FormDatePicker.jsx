@@ -12,7 +12,7 @@ import './_FormDatePicker.scss'
 /**
  * Displays a memoized FormDatePicker component
  * - Uses DatePicker component
- * - Used in Home form Create Employee
+ * - Used in EmployeeForm
  *
  * @param {string} label DatePicker label
  * @param {string} date DatePicker date state

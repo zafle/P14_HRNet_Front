@@ -9,7 +9,7 @@ import './_Error404.scss'
  */
 export default function Error404() {
   return (
-    <main>
+    <>
       <div className="page-404">
         <img
           className="page-404__illustration"
@@ -20,6 +20,6 @@ export default function Error404() {
           Back to home
         </Link>
       </div>
-    </main>
+    </>
   )
 }

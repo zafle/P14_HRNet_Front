@@ -1,10 +1,14 @@
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+// Slice
 import { employeeSlice } from '../../redux/features/employeeSlice'
+// Components
 import { FormInputMemo } from '../FormInput/FormInput'
 import { FormDatePickerStateManagerMemo } from '../FormDatePickerStateManager/FormDatePickerStateManager'
 import { FormSelectMemo } from '../FormSelect/FormSelect'
+// Data
 import { DEPARTMENTS, STATES } from '../../data/employeeForm'
+// Selectors
 import {
   getCity,
   getDateOfBirth,
@@ -16,12 +20,25 @@ import {
   getStreet,
   getZipCode,
 } from '../../redux/selectors'
-import variables from '../../styles/_export.module.scss'
+// Util
 import { format } from 'date-fns'
+// PropTypes
 import PropTypes from 'prop-types'
+// scss
+import variables from '../../styles/_export.module.scss'
 import './_EmployeeForm.scss'
 
+/**
+ * Displays a form to create or update employee
+ * - used in Home and EditEmployee components
+ *
+ * @param {function} onSubmitForm function to call on submit form
+ * @param {string} buttonText text for the submit button
+ *
+ * @returns {React.ReactElement} the employee form
+ */
 export default function EmployeeForm({ onSubmitForm, buttonText }) {
+  // Get scss variables
   const { lightThirdColor } = variables
 
   const dispatch = useDispatch()

@@ -1,3 +1,6 @@
+/**
+ * Properties used in header cells CustomDataTable
+ */
 export const employeesDataTableProperties = {
   firstName: {
     title: 'First Name',

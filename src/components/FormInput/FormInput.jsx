@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 /**
  * Displays a memoized input component
- * - Used in Home form Create Employee
+ * - Used in EmployeeForm
  *
  * @param {string} type input type (default = text)
  * @param {string} label input label

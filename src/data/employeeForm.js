@@ -1,4 +1,7 @@
-// data for the department FormSelect component on Home page
+/**
+ * data for the FormSelect components in EmployeeForm
+ */
+
 export const DEPARTMENTS = [
   'Sales',
   'Marketing',
@@ -7,7 +10,6 @@ export const DEPARTMENTS = [
   'Legal',
 ]
 
-// data for the state FormSelect component on Home page
 export const STATES = [
   {
     name: 'Alabama',

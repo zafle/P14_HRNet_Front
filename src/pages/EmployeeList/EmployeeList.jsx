@@ -14,30 +14,30 @@ import MainTitle from '../../components/MainTitle/MainTitle'
 import { useNavigate } from 'react-router'
 
 /**
- * Displays employee-list page
+ * Displays employee-list page content
  * - Displays CustomDataTable with all employees
  *
- * @returns {React.ReactElement} employee-list page
+ * @returns {React.ReactElement} employee-list page content
  */
 export default function EmployeeList() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  // Gets data table content
+  // Get data table content
   const allEmployees = useSelector(getAllEmployees)
 
-  // Creates the function to use on delete employee Data Table row
+  // Create the function to use on delete employee Data Table row
   const handleOnDeleteEmployee = (id) => {
     dispatch(employeesSlice.actions.removeEmployee(id))
   }
 
-  // Creates the function to use on edit employee Data Table
+  // Create the function to use on edit employee Data Table
   const handleOnEditEmployee = (id) => {
     navigate(`/edit-employee/${id}`)
   }
 
   return (
-    <main>
+    <>
       <MainTitle title="Current Employees" />
       <FilterContextProvider>
         <DeleteModalContextProvider>
@@ -51,6 +51,6 @@ export default function EmployeeList() {
           />
         </DeleteModalContextProvider>
       </FilterContextProvider>
-    </main>
+    </>
   )
 }

@@ -1,5 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+/**
+ * employeeSlice stores values from :
+ * - Home form "Create Employee"
+ * - EditEmployee form "Update Employee"
+ */
+
 const initialState = {
   firstName: '',
   lastName: '',
@@ -12,9 +18,6 @@ const initialState = {
   zipCode: '',
 }
 
-/**
- * employeeSlice stores values from Home form Create Employee
- */
 export const employeeSlice = createSlice({
   name: 'employee',
   initialState,
@@ -53,7 +56,6 @@ export const employeeSlice = createSlice({
       }
     },
     clearEmployee() {
-      console.log('employee cleared')
       return {
         ...initialState,
       }

@@ -3,7 +3,7 @@ import { filterContext } from '../filterContext'
 import PropTypes from 'prop-types'
 
 /**
- * Creates a context for filter functionality in CustomDataTable component
+ * Provides the filterContext for filter functionality in CustomDataTable component
  *
  * @param {React.ReactNode} children
  *

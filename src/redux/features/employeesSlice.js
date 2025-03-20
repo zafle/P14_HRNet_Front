@@ -1,13 +1,14 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 
+/**
+ * employeesSlice stores all registered employees
+ * - Used to display all employees in EmployeeList
+ */
+
 const employeesAdapter = createEntityAdapter({
   selectId: (employee) => employee.id,
 })
 
-/**
- * employeesSlice stores all registered employees
- * - Used to display employees in CustomDataTable
- */
 export const employeesSlice = createSlice({
   name: 'employees',
   initialState: employeesAdapter.getInitialState(),

@@ -6,7 +6,7 @@ import './_FormSelect.scss'
 
 /**
  * Displays a custom SelectMenu
- * - Used in Home page form Create Employee
+ * - Used in EmployeeForm
  *
  * @param {string} label SelectMenu label
  * @param {Array.<string|Object>} options SelectMenu data for dropdown options
@@ -27,7 +27,7 @@ export const FormSelectMemo = memo(function FormSelect({
   valueField,
   backgroundColor,
 }) {
-  // gets scss variables
+  // get scss variables
   const {
     inputMarginTop,
     inputVerticalPadding,
@@ -38,7 +38,7 @@ export const FormSelectMemo = memo(function FormSelect({
     primaryColor,
   } = variables
 
-  // Creates a local state for the selected option
+  // Create a local state for the selected option
   // - Allows to enable default selected option from selectMenu
   // - (Otherwise reset form does not reset on the default value)
   const [componentSelected, setComponentSelected] = useState('')
@@ -46,13 +46,19 @@ export const FormSelectMemo = memo(function FormSelect({
   const [defaultSelected, setDefaultSelected] = useState('')
   const [resetToDefault, setResetToDefault] = useState()
 
-  // Set default selected option only once when component mounts
+  // Set defaultSelectedOption and resetToDefault props
+  // only once when component mounts
   useEffect(() => {
     // if form is to create
     if (selectedOption === '') {
       setDefaultSelected('first')
       setResetToDefault(true)
       // if form is to update
+    } else if (selectedOption === 'EMPTY_OPTION') {
+      setDefaultSelected('default')
+      setResetToDefault(false)
+      // give empty value to selectedOption redux value
+      onChange('')
     } else {
       setDefaultSelected(selectedOption)
       setResetToDefault(false)
@@ -62,13 +68,14 @@ export const FormSelectMemo = memo(function FormSelect({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // Updates local and redux state on change
+  // Handle onChangeValue prop
+  // Update local and redux state on change
   const handleChange = (option) => {
     setComponentSelected(option)
     onChange(option)
   }
 
-  // Reset local state when reset form
+  // Reset local state when reset form by injecting empty value programmatically
   useEffect(() => {
     if (selectedOption === '' && componentSelected !== '') {
       setComponentSelected(selectedOption)

@@ -55,6 +55,14 @@ export const getZipCode = (state) => state.employee.zipCode
  */
 export const getAllEmployees = (state) => employeesSelector.selectAll(state)
 
+/**
+ * Get one employee's data
+ *
+ * @param {Object} state Global Redux State
+ * @param {number} id Employee ID
+ *
+ * @returns {Object} An object containing one employee entity from employeesSlice
+ */
 export const getCreatedEmployeeById = (state, id) =>
   employeesSelector.selectById(state, id)
 

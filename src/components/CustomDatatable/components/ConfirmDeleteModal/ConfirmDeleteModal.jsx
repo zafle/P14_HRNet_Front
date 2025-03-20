@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import { deleteModalContext } from '../../../../contexts/deleteModalContext'
-import { CustomModal } from '../../../CustomModal/CustomModal'
+import CustomModal from '../../../CustomModal/CustomModal'
+import ModalButton from '../../../CustomModal/components/ModalButton/ModalButton'
 import PropTypes from 'prop-types'
 import './_ConfirmDeleteModal.scss'
 
@@ -19,7 +20,7 @@ export default function ConfirmDeleteModal({ deleteAction }) {
     toggleConfirmDeleteModal,
   } = useContext(deleteModalContext)
 
-  const handleOnClickCancel = () => {
+  const handleOnClickConfirmDelete = () => {
     deleteAction(itemToDeleteId)
     toggleConfirmDeleteModal()
   }
@@ -35,18 +36,8 @@ export default function ConfirmDeleteModal({ deleteAction }) {
           <span className="confirm-delete-modal__name">{itemToDeleteName}</span>
         </p>
         <p>Do you confirm suppression ?</p>
-        <button
-          className="confirm-delete-modal__button confirm-delete-modal__button--confirm"
-          onClick={handleOnClickCancel}
-        >
-          Confirm
-        </button>
-        <button
-          className="confirm-delete-modal__button confirm-delete-modal__button--cancel"
-          onClick={toggleConfirmDeleteModal}
-        >
-          Cancel
-        </button>
+        <ModalButton type="confirm" action={handleOnClickConfirmDelete} />
+        <ModalButton type="cancel" action={toggleConfirmDeleteModal} />
       </div>
     </CustomModal>
   )

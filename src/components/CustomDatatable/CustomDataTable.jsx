@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
-import { filterContext } from '../../contexts/filterContext'
 import DataTable from 'react-data-table-component'
+import { filterContext } from '../../contexts/filterContext'
 import ConfirmDeleteModal from './components/ConfirmDeleteModal/ConfirmDeleteModal'
 import { FilterDataTableMemo } from './components/FilterDataTable/FilterDataTable'
 import EditButton from './components/EditButton/EditButton'

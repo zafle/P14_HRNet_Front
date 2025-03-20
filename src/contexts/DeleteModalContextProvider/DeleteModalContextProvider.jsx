@@ -3,7 +3,9 @@ import { deleteModalContext } from '../deleteModalContext'
 import PropTypes from 'prop-types'
 
 /**
- * Creates a context for delete item functionnality in CustomDataTable and ConfirmDeleteModal
+ * Provides the deleteModalContext for delete item functionnality
+ * in CustomDataTable and ConfirmDeleteModal
+ *
  * @param {React.ReactNode} children
  *
  * @returns {JSX.Element} deleteModalContext Provider

@@ -4,15 +4,15 @@ import PropTypes from 'prop-types'
 import './_CustomModal.scss'
 
 /**
- * Displays a modal
+ * Displays a custom 'react-responsive-modal'
  *
- * @param {boolean} open modal state
- * @param {function} onClose modal state setter on close mmodal
+ * @param {boolean} open modal state that indicates if modal is open
+ * @param {function} onClose function to call on close modal
  * @param {React.ReactNode|HTMLElement} children modal content
  *
  * @returns {React.ReactElement} Modal base
  */
-export function CustomModal({ open, onClose, children }) {
+export default function CustomModal({ open, onClose, children }) {
   return (
     <Modal open={open} onClose={onClose} center>
       {children}

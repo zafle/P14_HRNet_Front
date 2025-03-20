@@ -9,8 +9,7 @@ import { getNewEmployeeId } from '../../redux/selectors'
 // components
 import MainTitle from '../../components/MainTitle/MainTitle'
 import EmployeeForm from '../../components/EmployeeForm/EmployeeForm'
-import { CustomModal } from '../../components/CustomModal/CustomModal'
-// import './_Home.scss'
+import CustomModal from '../../components/CustomModal/CustomModal'
 
 /**
  * Displays Homepage
@@ -24,13 +23,10 @@ export default function Home() {
 
   const newEmployeeId = useSelector(getNewEmployeeId)
 
-  // ############### MODAL STATE ###############
+  // ############### MODAL ###############
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const onOpenModal = () => {
-    setIsModalOpen(true)
-  }
-  const onCloseModal = () => {
+  const handleCloseModal = () => {
     setIsModalOpen(false)
   }
 
@@ -45,16 +41,16 @@ export default function Home() {
     )
     dispatch(employeeSlice.actions.clearEmployee())
     dispatch(formControlSlice.actions.setClearDate(true))
-    onOpenModal()
+    setIsModalOpen(true)
   }
 
   return (
-    <main>
-      <CustomModal open={isModalOpen} onClose={onCloseModal}>
-        <p>Employee Created!</p>
-      </CustomModal>
+    <>
       <MainTitle title="Create Employee" />
       <EmployeeForm onSubmitForm={handleSubmitForm} buttonText="Save" />
-    </main>
+      <CustomModal open={isModalOpen} onClose={handleCloseModal}>
+        <p>Employee Created!</p>
+      </CustomModal>
+    </>
   )
 }
