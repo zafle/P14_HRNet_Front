@@ -14,7 +14,11 @@ export default function EditButton({ row, editAction }) {
     editAction(row.id)
   }
   return (
-    <button className="datatable__edit-button" onClick={handleOnClick}>
+    <button
+      className="datatable__edit-button"
+      onClick={handleOnClick}
+      aria-label="edit"
+    >
       <svg
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"

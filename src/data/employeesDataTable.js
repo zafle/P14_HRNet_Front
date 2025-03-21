@@ -11,6 +11,7 @@ export const employeesDataTableProperties = {
   startDate: {
     title: 'Start Date',
     width: '100px',
+    format: 'date',
   },
   department: {
     title: 'Department',
@@ -19,6 +20,7 @@ export const employeesDataTableProperties = {
   dateOfBirth: {
     title: 'Date of Birth',
     width: '115px',
+    format: 'date',
   },
   street: {
     title: 'Street',

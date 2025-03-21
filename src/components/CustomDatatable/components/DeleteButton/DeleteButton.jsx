@@ -30,6 +30,7 @@ export default function DeleteButton({ row, nameProperty }) {
     <button
       className="datatable__delete-button"
       onClick={() => handleOnClick(row.id, row[nameProperty])}
+      aria-label="delete"
     >
       <svg
         version="1.1"

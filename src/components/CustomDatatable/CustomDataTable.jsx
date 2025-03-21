@@ -47,6 +47,19 @@ export default function CustomDataTable({
     setSortedByColumn(column.id)
   }
 
+  const sortDate = (key) => (rowA, rowB) => {
+    const a = new Date(rowA[key])
+    const b = new Date(rowB[key])
+
+    if (a > b) {
+      return 1
+    }
+    if (b > a) {
+      return -1
+    }
+    return 0
+  }
+
   // when the id of the sorted by columns changes
   // retrieves all the cells whith this id
   // and gives them a grey background
@@ -80,6 +93,7 @@ export default function CustomDataTable({
     sortable: true,
     width: value.width !== '' ? value.width : null,
     wrap: true,
+    sortFunction: value.format ? sortDate(key) : null,
   }))
 
   const allColumns = actionsColumn.concat(titlesColumns)
