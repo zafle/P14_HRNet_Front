@@ -40,7 +40,7 @@ export default function CustomDataTable({
   const { filterText, toggleResetPagination } = useContext(filterContext)
 
   // create state for sorting
-  const [sortedByColumn, setSortedByColumn] = useState(1)
+  const [sortedByColumn, setSortedByColumn] = useState()
 
   // Functions for sort functionality
   const handleSort = (column) => {
@@ -71,8 +71,10 @@ export default function CustomDataTable({
           itemId !== sortedByColumn ? '' : 'rgba(110, 110, 110, 0.1)'
       })
     }
-    styleSortedByCells(document.querySelectorAll('.rdt_TableCol'))
-    styleSortedByCells(document.querySelectorAll('.rdt_TableCell'))
+    if (sortedByColumn > 2) {
+      styleSortedByCells(document.querySelectorAll('.rdt_TableCol'))
+      styleSortedByCells(document.querySelectorAll('.rdt_TableCell'))
+    }
   }, [sortedByColumn])
 
   // creates table columns data
