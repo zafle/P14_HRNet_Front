@@ -51,7 +51,7 @@ export default function EditEmployee() {
 
   const getStateOptionText = (value) => {
     const selectedState = STATES.filter((state) => state.abbreviation === value)
-    return selectedState.length ? selectedState[0].name : 'EMPTY_OPTION'
+    return selectedState.length ? selectedState[0].name : ''
   }
 
   // If employee exists, fill the form with his data,
@@ -65,8 +65,8 @@ export default function EditEmployee() {
             dateOfBirth: formatDate(employee.dateOfBirth),
             startDate: formatDate(employee.startDate),
             state: getStateOptionText(employee.state),
-            department:
-              employee.department !== '' ? employee.department : 'EMPTY_OPTION',
+            // department:
+            //   employee.department !== '' ? employee.department : '',
           })
         )
         setIsSetEditedEmployee(true)
@@ -124,7 +124,7 @@ export default function EditEmployee() {
     <>
       <MainTitle title="Edit employee" />
       {isSetEditedEmployee && (
-        <EmployeeForm onSubmitForm={handleSubmitForm} buttonText="Update" />
+        <EmployeeForm onSubmitForm={handleSubmitForm} formType="update" />
       )}
       <CustomModal
         open={isConfirmUpdatedModalOpen}

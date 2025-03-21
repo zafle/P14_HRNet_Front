@@ -15,6 +15,7 @@ import './_FormSelect.scss'
  * @param {string} textField the property name for options text in the options Array data
  * @param {string} valueField the property name for options values in the options Array data
  * @param {string} backgroundColor background color for SelectMenu input
+ * @param {string} formType 'create' | 'update'
  *
  * @returns {React.ReactElement} customized SelectMenu
  */
@@ -26,6 +27,7 @@ export const FormSelectMemo = memo(function FormSelect({
   textField,
   valueField,
   backgroundColor,
+  formType,
 }) {
   // get scss variables
   const {
@@ -46,22 +48,17 @@ export const FormSelectMemo = memo(function FormSelect({
   const [defaultSelected, setDefaultSelected] = useState('')
   const [resetToDefault, setResetToDefault] = useState()
 
-  // Set defaultSelectedOption and resetToDefault props
-  // only once when component mounts
   useEffect(() => {
-    // if form is to create
-    if (selectedOption === '') {
+    if (formType === 'create') {
       setDefaultSelected('first')
       setResetToDefault(true)
-      // if form is to update
-    } else if (selectedOption === 'EMPTY_OPTION') {
-      setDefaultSelected('default')
+    } else if (formType === 'update') {
       setResetToDefault(false)
-      // give empty value to selectedOption redux value
-      onChange('')
-    } else {
-      setDefaultSelected(selectedOption)
-      setResetToDefault(false)
+      if (selectedOption === '') {
+        setDefaultSelected('default')
+      } else {
+        setDefaultSelected(selectedOption)
+      }
     }
     // NOTE: Run effect only when component mounts,
     // please recheck dependencies if effect is updated.
@@ -159,4 +156,5 @@ FormSelectMemo.propTypes = {
   backgroundColor: PropTypes.string.isRequired,
   textField: PropTypes.string,
   valueField: PropTypes.string,
+  formType: PropTypes.oneOf(['create', 'update']).isRequired,
 }

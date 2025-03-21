@@ -33,11 +33,11 @@ import './_EmployeeForm.scss'
  * - used in Home and EditEmployee components
  *
  * @param {function} onSubmitForm function to call on submit form
- * @param {string} buttonText text for the submit button
+ * @param {type} formType 'create' | 'update'
  *
  * @returns {React.ReactElement} the employee form
  */
-export default function EmployeeForm({ onSubmitForm, buttonText }) {
+export default function EmployeeForm({ onSubmitForm, formType }) {
   // Get scss variables
   const { lightThirdColor } = variables
 
@@ -173,6 +173,7 @@ export default function EmployeeForm({ onSubmitForm, buttonText }) {
               onChange={handleDepartmentChange}
               selectedOption={department}
               backgroundColor={lightThirdColor}
+              formType={formType}
             />
           </div>
         </div>
@@ -197,6 +198,7 @@ export default function EmployeeForm({ onSubmitForm, buttonText }) {
               textField="name"
               valueField="abbreviation"
               backgroundColor="white"
+              formType={formType}
             />
             <FormInputMemo
               type="number"
@@ -209,7 +211,7 @@ export default function EmployeeForm({ onSubmitForm, buttonText }) {
       </div>
 
       <button type="submit" className="employeeForm__submitButton">
-        {buttonText}
+        {formType === 'create' ? `Save` : `Update`}
       </button>
     </form>
   )
@@ -217,5 +219,5 @@ export default function EmployeeForm({ onSubmitForm, buttonText }) {
 
 EmployeeForm.propTypes = {
   onSubmitForm: PropTypes.func.isRequired,
-  buttonText: PropTypes.string.isRequired,
+  formType: PropTypes.oneOf(['create', 'update']),
 }

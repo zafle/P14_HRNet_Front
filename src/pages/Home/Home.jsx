@@ -47,7 +47,7 @@ export default function Home() {
   return (
     <>
       <MainTitle title="Create Employee" />
-      <EmployeeForm onSubmitForm={handleSubmitForm} buttonText="Save" />
+      <EmployeeForm onSubmitForm={handleSubmitForm} formType="create" />
       <CustomModal open={isModalOpen} onClose={handleCloseModal}>
         <p>Employee Created!</p>
       </CustomModal>
