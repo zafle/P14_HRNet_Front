@@ -59,16 +59,31 @@
     }
   }
 
-  &__submitButton {
-    padding: 10px 20px;
-    background-color: $primary-color;
-    color: white;
-    font-weight: 700;
-    font-size: 1rem;
-    border: none;
-    border-radius: 5px;
-    display: block;
-    margin: 0 auto;
-    cursor: pointer;
+  &__buttonsGroup {
+    display: flex;
+    justify-content: center;
+    // gap: 30px;
   }
+
+  // &__button {
+  //   padding: 10px 20px;
+  //   min-width: 90px;
+  //   color: white;
+  //   font-weight: 700;
+  //   font-size: 1rem;
+  //   border: none;
+  //   border-radius: 5px;
+  //   display: block;
+  //   cursor: pointer;
+
+  //   &--submit {
+  //     background-color: $primary-color;
+  //   }
+  //   &--clear {
+  //     background-color: #424242;
+  //   }
+  //   &:hover {
+  //     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+  //   }
+  // }
 }

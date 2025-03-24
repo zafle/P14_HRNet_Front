@@ -11,7 +11,7 @@ import { getCreatedEmployeeById } from '../../redux/selectors'
 import MainTitle from '../../components/MainTitle/MainTitle'
 import EmployeeForm from '../../components/EmployeeForm/EmployeeForm'
 import CustomModal from '../../components/CustomModal/CustomModal'
-import ModalButton from '../../components/CustomModal/components/ModalButton/ModalButton'
+import { FormButtonMemo } from '../../components/FormButton/FormButton'
 // Data
 import { STATES } from '../../data/employeeForm'
 // Util
@@ -65,8 +65,6 @@ export default function EditEmployee() {
             dateOfBirth: formatDate(employee.dateOfBirth),
             startDate: formatDate(employee.startDate),
             state: getStateOptionText(employee.state),
-            // department:
-            //   employee.department !== '' ? employee.department : '',
           })
         )
         setIsSetEditedEmployee(true)
@@ -79,12 +77,13 @@ export default function EditEmployee() {
   // ############### BLOCKING NAVIGATION ###############
 
   // If update has not been done OR saved
+  // and If cancel action has not been triggered
   // Block navigation by opening a confirm exit CustomModal
 
-  const shouldBlock = ({ currentLocation, nextLocation }) =>
+  let shouldBlock = ({ currentLocation, nextLocation }) =>
     !isUpdated && currentLocation.pathname !== nextLocation.pathname
 
-  const blocker = useBlocker(shouldBlock)
+  let blocker = useBlocker(shouldBlock)
 
   const handleOnConfirmExitPage = () => {
     clearForm()
@@ -106,6 +105,10 @@ export default function EditEmployee() {
     setIsUpdated(true)
   }
 
+  const handleCancelUpdate = () => {
+    navigate('/employee-list')
+  }
+
   useEffect(() => {
     if (isUpdated) {
       clearForm()
@@ -124,7 +127,11 @@ export default function EditEmployee() {
     <>
       <MainTitle title="Edit employee" />
       {isSetEditedEmployee && (
-        <EmployeeForm onSubmitForm={handleSubmitForm} formType="update" />
+        <EmployeeForm
+          onSubmitForm={handleSubmitForm}
+          onClearForm={handleCancelUpdate}
+          formType="update"
+        />
       )}
       <CustomModal
         open={isConfirmUpdatedModalOpen}
@@ -137,9 +144,17 @@ export default function EditEmployee() {
         onClose={handleOnCancelExitPage}
       >
         <p>Are you sure you want to leave this page?</p>
-        <p>Changes you made will not be saved.</p>
-        <ModalButton type="confirm" action={handleOnConfirmExitPage} />
-        <ModalButton type="cancel" action={handleOnCancelExitPage} />
+        <p>All changes will be lost.</p>
+        <FormButtonMemo
+          buttonType="primary"
+          buttonText="leave"
+          action={handleOnConfirmExitPage}
+        />
+        <FormButtonMemo
+          buttonType="secondary"
+          buttonText="stay"
+          action={handleOnCancelExitPage}
+        />
       </CustomModal>
     </>
   )

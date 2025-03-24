@@ -30,7 +30,12 @@ export default function Home() {
     setIsModalOpen(false)
   }
 
-  // ############### HANDLE SUBMIT EMPLOYEEFORM ###############
+  // ############### HANDLE CREATE EMPLOYEE FORM ###############
+
+  const clearForm = () => {
+    dispatch(employeeSlice.actions.clearEmployee())
+    dispatch(formControlSlice.actions.setClearDate(true))
+  }
 
   const handleSubmitForm = (employee) => {
     dispatch(
@@ -39,15 +44,22 @@ export default function Home() {
         ...employee,
       })
     )
-    dispatch(employeeSlice.actions.clearEmployee())
-    dispatch(formControlSlice.actions.setClearDate(true))
+    clearForm()
     setIsModalOpen(true)
+  }
+
+  const handleResetForm = () => {
+    clearForm()
   }
 
   return (
     <>
       <MainTitle title="Create Employee" />
-      <EmployeeForm onSubmitForm={handleSubmitForm} formType="create" />
+      <EmployeeForm
+        onSubmitForm={handleSubmitForm}
+        onClearForm={handleResetForm}
+        formType="create"
+      />
       <CustomModal open={isModalOpen} onClose={handleCloseModal}>
         <p>Employee Created!</p>
       </CustomModal>

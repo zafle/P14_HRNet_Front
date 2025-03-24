@@ -27,17 +27,19 @@ import PropTypes from 'prop-types'
 // scss
 import variables from '../../styles/_export.module.scss'
 import './_EmployeeForm.scss'
+import { FormButtonMemo } from '../FormButton/FormButton'
 
 /**
  * Displays a form to create or update employee
  * - used in Home and EditEmployee components
  *
  * @param {function} onSubmitForm function to call on submit form
+ * @param {function} onClearForm function to call on clear form
  * @param {type} formType 'create' | 'update'
  *
  * @returns {React.ReactElement} the employee form
  */
-export default function EmployeeForm({ onSubmitForm, formType }) {
+export default function EmployeeForm({ onSubmitForm, onClearForm, formType }) {
   // Get scss variables
   const { lightThirdColor } = variables
 
@@ -81,6 +83,12 @@ export default function EmployeeForm({ onSubmitForm, formType }) {
     onSubmitForm(employee)
   }
 
+  // ############### HANDLE CLEAR FORM ###############
+
+  const handleClearForm = (e) => {
+    e.preventDefault()
+    onClearForm()
+  }
   // ############### HANDLE CHANGE FORM ###############
 
   const handleFirstNameChange = useCallback(
@@ -210,14 +218,24 @@ export default function EmployeeForm({ onSubmitForm, formType }) {
         </div>
       </div>
 
-      <button type="submit" className="employeeForm__submitButton">
-        {formType === 'create' ? `Save` : `Update`}
-      </button>
+      <div className="employeeForm__buttonsGroup">
+        <FormButtonMemo
+          submit
+          buttonType="primary"
+          buttonText={formType === 'create' ? `Save` : `Update`}
+        />
+        <FormButtonMemo
+          buttonType="secondary"
+          buttonText={formType === 'create' ? `Reset` : `Cancel`}
+          action={handleClearForm}
+        />
+      </div>
     </form>
   )
 }
 
 EmployeeForm.propTypes = {
   onSubmitForm: PropTypes.func.isRequired,
+  onClearForm: PropTypes.func.isRequired,
   formType: PropTypes.oneOf(['create', 'update']),
 }
