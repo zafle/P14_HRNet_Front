@@ -1,5 +1,6 @@
 import { memo } from 'react'
 import PropTypes from 'prop-types'
+import { preventUnauthorizedInputNumberKey } from '../../utils/utils'
 
 /**
  * Displays a memoized input component
@@ -28,6 +29,11 @@ export const FormInputMemo = memo(function FormInput({
         type={type}
         onChange={onChange}
         value={inputValue}
+        onKeyDown={
+          type === 'number'
+            ? (event) => preventUnauthorizedInputNumberKey(event)
+            : null
+        }
       />
     </label>
   )

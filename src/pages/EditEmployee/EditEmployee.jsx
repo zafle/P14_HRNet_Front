@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useBlocker, useNavigate, useParams } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
 // Slices
@@ -11,7 +11,7 @@ import { getCreatedEmployeeById } from '../../redux/selectors'
 import MainTitle from '../../components/MainTitle/MainTitle'
 import EmployeeForm from '../../components/EmployeeForm/EmployeeForm'
 import CustomModal from '../../components/CustomModal/CustomModal'
-import { FormButtonMemo } from '../../components/FormButton/FormButton'
+import { CustomButtonMemo } from '../../components/CustomButton/CustomButton'
 // Data
 import { STATES } from '../../data/employeeForm'
 // Util
@@ -20,6 +20,7 @@ import { omit } from 'lodash'
 export default function EditEmployee() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const shakingModalRef = useRef(null)
 
   const [isSetEditedEmployee, setIsSetEditedEmployee] = useState(false)
   const [isUpdated, setIsUpdated] = useState(false)
@@ -141,20 +142,23 @@ export default function EditEmployee() {
       </CustomModal>
       <CustomModal
         open={blocker.state === 'blocked'}
-        onClose={handleOnCancelExitPage}
+        isControl={true}
+        shakingRef={shakingModalRef}
       >
-        <p>Are you sure you want to leave this page?</p>
-        <p>All changes will be lost.</p>
-        <FormButtonMemo
-          buttonType="primary"
-          buttonText="leave"
-          action={handleOnConfirmExitPage}
-        />
-        <FormButtonMemo
-          buttonType="secondary"
-          buttonText="stay"
-          action={handleOnCancelExitPage}
-        />
+        <div ref={shakingModalRef}>
+          <p>Are you sure you want to leave this page?</p>
+          <p>All changes will be lost.</p>
+          <CustomButtonMemo
+            buttonType="primary"
+            buttonText="leave"
+            action={handleOnConfirmExitPage}
+          />
+          <CustomButtonMemo
+            buttonType="secondary"
+            buttonText="stay"
+            action={handleOnCancelExitPage}
+          />
+        </div>
       </CustomModal>
     </>
   )

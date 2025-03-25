@@ -6,6 +6,7 @@ import { employeeSlice } from '../../redux/features/employeeSlice'
 import { FormInputMemo } from '../FormInput/FormInput'
 import { FormDatePickerStateManagerMemo } from '../FormDatePickerStateManager/FormDatePickerStateManager'
 import { FormSelectMemo } from '../FormSelect/FormSelect'
+import { CustomButtonMemo } from '../CustomButton/CustomButton'
 // Data
 import { DEPARTMENTS, STATES } from '../../data/employeeForm'
 // Selectors
@@ -27,7 +28,6 @@ import PropTypes from 'prop-types'
 // scss
 import variables from '../../styles/_export.module.scss'
 import './_EmployeeForm.scss'
-import { FormButtonMemo } from '../FormButton/FormButton'
 
 /**
  * Displays a form to create or update employee
@@ -219,12 +219,12 @@ export default function EmployeeForm({ onSubmitForm, onClearForm, formType }) {
       </div>
 
       <div className="employeeForm__buttonsGroup">
-        <FormButtonMemo
+        <CustomButtonMemo
           submit
           buttonType="primary"
           buttonText={formType === 'create' ? `Save` : `Update`}
         />
-        <FormButtonMemo
+        <CustomButtonMemo
           buttonType="secondary"
           buttonText={formType === 'create' ? `Reset` : `Cancel`}
           action={handleClearForm}

@@ -1,5 +1,22 @@
 @use '../../styles/variables' as *;
 
+@keyframes shakeModalAnimation {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  25% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 .react-responsive-modal {
   &-modal {
     padding: 70px 50px 50px;
@@ -21,14 +38,39 @@
         margin-bottom: 20px;
       }
     }
-
-    &-closeButton {
-      background-color: $complementary-primary;
-      border-radius: 4px;
-      padding: 5px;
-      fill: white;
-      top: 20px;
-      right: 20px;
-    }
   }
+
+  &-closeButton {
+    background-color: $complementary-primary;
+    border-radius: 4px;
+    padding: 5px;
+    fill: white;
+    top: 20px;
+    right: 20px;
+  }
+}
+
+.shakeModal {
+  animation: shakeModalAnimation 100ms linear !important;
+}
+@keyframes messageAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.confirmMessage::after {
+  animation: messageAnimation 100ms linear;
+  content: 'Please confirm or cancel your action';
+  display: block;
+  color: red;
+  font-family: $main-font;
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  left: 0;
+  right: 0;
+  font-style: italic;
 }

@@ -1,15 +1,15 @@
 import { memo } from 'react'
 import PropTypes from 'prop-types'
-import './_FormButton.scss'
+import './_CustomButton.scss'
 
 /**
- * Displays a customed button for EmployeeForm
+ * Displays a customed button for EmployeeForm and modals
  *
  * @param {boolean} submit True if button is submit button, default = false
  * @param {string} buttonType True if button is submit button, default = false
  *
  */
-export const FormButtonMemo = memo(function FormButton({
+export const CustomButtonMemo = memo(function CustomButton({
   submit = false,
   buttonType,
   buttonText,
@@ -18,7 +18,7 @@ export const FormButtonMemo = memo(function FormButton({
   return (
     <button
       type={submit ? 'submit' : 'button'}
-      className={`formButton formButton--${buttonType}`}
+      className={`customButton customButton--${buttonType}`}
       onClick={submit ? null : action}
     >
       {buttonText}
@@ -26,7 +26,7 @@ export const FormButtonMemo = memo(function FormButton({
   )
 })
 
-FormButtonMemo.propTypes = {
+CustomButtonMemo.propTypes = {
   submit: PropTypes.bool,
   buttonType: PropTypes.oneOf(['primary', 'secondary']).isRequired,
   buttonText: PropTypes.string.isRequired,
