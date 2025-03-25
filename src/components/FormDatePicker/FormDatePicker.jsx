@@ -129,12 +129,18 @@ export const FormDatePickerMemo = memo(function FormDatePicker({
     </div>
   )
 
+  const noSpaceLabel = useMemo(() => label.replaceAll(' ', ''), [label])
+  const inputId = useMemo(() => `datepicker__${noSpaceLabel}`, [noSpaceLabel])
+
   return (
     <>
-      <label className="datePickerFormLabel">{label}</label>
+      <label htmlFor={inputId} className="datePickerFormLabel">
+        {label}
+      </label>
 
       <DatePicker
-        locale="en-GB"
+        id={inputId}
+        name={noSpaceLabel}
         renderCustomHeader={customHeader}
         selected={selectedDate}
         onChange={handleChangeSelectedDate}

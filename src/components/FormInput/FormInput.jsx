@@ -25,6 +25,7 @@ export const FormInputMemo = memo(function FormInput({
     <label className="formLabel">
       {label}
       <input
+        name={label.replaceAll(' ', '')}
         className={`formInput ${background ? 'formInput--colored' : ''}`}
         type={type}
         onChange={onChange}

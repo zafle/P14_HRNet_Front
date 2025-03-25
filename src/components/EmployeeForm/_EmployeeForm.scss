@@ -3,7 +3,6 @@
 @use '../../styles/mixins' as *;
 
 .employeeForm {
-  max-width: 704px;
   margin: 0 auto;
   box-sizing: border-box;
 
@@ -12,12 +11,10 @@
     justify-content: center;
     column-gap: 40px;
     flex-wrap: wrap;
-    padding: 32px;
+    padding: 32px 0;
   }
   &__block {
-    flex: 0 0 45%;
-    min-width: 250px;
-    max-width: 300px;
+    width: 300px;
 
     &--insideContainer {
       padding: 20px 32px 0;
@@ -28,6 +25,8 @@
     background-color: color.adjust($third-color, $lightness: 20%);
     border: none;
     padding: 32px;
+    width: 100%;
+    box-sizing: border-box;
 
     & legend {
       font-weight: 700;
@@ -62,28 +61,5 @@
   &__buttonsGroup {
     display: flex;
     justify-content: center;
-    // gap: 30px;
   }
-
-  // &__button {
-  //   padding: 10px 20px;
-  //   min-width: 90px;
-  //   color: white;
-  //   font-weight: 700;
-  //   font-size: 1rem;
-  //   border: none;
-  //   border-radius: 5px;
-  //   display: block;
-  //   cursor: pointer;
-
-  //   &--submit {
-  //     background-color: $primary-color;
-  //   }
-  //   &--clear {
-  //     background-color: #424242;
-  //   }
-  //   &:hover {
-  //     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
-  //   }
-  // }
 }
