@@ -2,6 +2,10 @@
  * Properties used in header cells CustomDataTable
  */
 export const employeesDataTableProperties = {
+  id: {
+    title: 'ID',
+    width: '40px',
+  },
   firstName: {
     title: 'First Name',
   },

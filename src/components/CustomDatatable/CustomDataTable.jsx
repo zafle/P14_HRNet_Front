@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import DataTable from 'react-data-table-component'
 import { filterContext } from '../../contexts/filterContext'
 import ConfirmDeleteModal from './components/ConfirmDeleteModal/ConfirmDeleteModal'
@@ -43,9 +43,9 @@ export default function CustomDataTable({
   const [sortedByColumn, setSortedByColumn] = useState()
 
   // Functions for sort functionality
-  const handleSort = (column) => {
+  const handleSort = useCallback((column) => {
     setSortedByColumn(column.id)
-  }
+  }, [])
 
   const sortDate = (key) => (rowA, rowB) => {
     const a = new Date(rowA[key])
@@ -71,70 +71,91 @@ export default function CustomDataTable({
           itemId !== sortedByColumn ? '' : 'rgba(110, 110, 110, 0.1)'
       })
     }
-    if (sortedByColumn > 2) {
+    if (sortedByColumn > 3) {
       styleSortedByCells(document.querySelectorAll('.rdt_TableCol'))
       styleSortedByCells(document.querySelectorAll('.rdt_TableCell'))
     }
   }, [sortedByColumn])
 
   // creates table columns data
-  const actionsColumn = [
-    {
-      cell: (row) => <DeleteButton row={row} nameProperty={nameProperty} />,
-      width: '40px',
-    },
-    {
-      cell: (row) => <EditButton row={row} editAction={onEdit} />,
-      width: '40px',
-    },
-  ]
+  const actionsColumn = useMemo(
+    () => [
+      {
+        cell: (row) => <DeleteButton row={row} nameProperty={nameProperty} />,
+        width: '40px',
+      },
+      {
+        cell: (row) => <EditButton row={row} editAction={onEdit} />,
+        width: '40px',
+      },
+    ],
+    [nameProperty, onEdit]
+  )
 
-  const titlesColumns = Object.entries(headerCellsData).map(([key, value]) => ({
-    name: value.title,
-    selector: (row) => row[key],
-    sortable: true,
-    width: value.width !== '' ? value.width : null,
-    wrap: true,
-    sortFunction: value.format ? sortDate(key) : null,
-  }))
+  const titlesColumns = useMemo(
+    () =>
+      Object.entries(headerCellsData).map(([key, value]) => ({
+        name: value.title,
+        selector: (row) => row[key],
+        sortable: true,
+        width: value.width !== '' ? value.width : null,
+        wrap: true,
+        sortFunction: value.format ? sortDate(key) : null,
+        omit: key === 'id' ? true : false,
+      })),
+    [headerCellsData]
+  )
 
-  const allColumns = actionsColumn.concat(titlesColumns)
+  // const allColumns = actionsColumn.concat(titlesColumns)
+  const allColumns = useMemo(
+    () => actionsColumn.concat(titlesColumns),
+    [actionsColumn, titlesColumns]
+  )
 
-  // Creates filtered content data
-  const filteredData = tableData.filter((item) =>
-    Object.keys(headerCellsData).some(
-      (key) =>
-        item[key] &&
-        item[key].toString().toLowerCase().includes(filterText.toLowerCase())
-    )
+  const filteredData = useMemo(
+    () =>
+      tableData.filter((item) =>
+        Object.keys(headerCellsData).some(
+          (key) =>
+            item[key] &&
+            item[key]
+              .toString()
+              .toLowerCase()
+              .includes(filterText.toLowerCase())
+        )
+      ),
+    [tableData, headerCellsData, filterText]
   )
 
   // creates custom styles
-  const customStyles = {
-    headCells: {
-      style: {
-        paddingLeft: '8px',
-        paddingRight: '8px',
-        fontWeight: '700',
-      },
-    },
-    cells: {
-      style: {
-        paddingLeft: '8px',
-        paddingRight: '8px',
-      },
-    },
-    rows: {
-      style: {
-        '&:not(:last-of-type)': {
-          borderBottomColor: `${thirdColor}`,
+  const customStyles = useMemo(
+    () => ({
+      headCells: {
+        style: {
+          paddingLeft: '8px',
+          paddingRight: '8px',
+          fontWeight: '700',
         },
       },
-      stripedStyle: {
-        backgroundColor: `${lightThirdColor}`,
+      cells: {
+        style: {
+          paddingLeft: '8px',
+          paddingRight: '8px',
+        },
       },
-    },
-  }
+      rows: {
+        style: {
+          '&:not(:last-of-type)': {
+            borderBottomColor: `${thirdColor}`,
+          },
+        },
+        stripedStyle: {
+          backgroundColor: `${lightThirdColor}`,
+        },
+      },
+    }),
+    [thirdColor, lightThirdColor]
+  )
 
   return (
     <>
@@ -152,12 +173,15 @@ export default function CustomDataTable({
           striped
           customStyles={customStyles}
           ariaLabel={ariaLabel}
+          defaultSortAsc={false}
+          defaultSortFieldId={3}
         />
       </div>
       <ConfirmDeleteModal deleteAction={onDelete} />
     </>
   )
 }
+
 CustomDataTable.propTypes = {
   headerCellsData: PropTypes.object.isRequired,
   tableData: PropTypes.array.isRequired,
