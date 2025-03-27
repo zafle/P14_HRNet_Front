@@ -4,10 +4,12 @@ import storage from 'redux-persist/lib/storage'
 import { employeeSlice } from './features/employeeSlice'
 import { employeesSlice } from './features/employeesSlice'
 import { formControlSlice } from './features/formControlSlice'
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 
 const persistConfig = {
   key: 'root',
   storage: storage,
+  stateReconciler: autoMergeLevel2,
 }
 
 const persistedReducer = persistReducer(

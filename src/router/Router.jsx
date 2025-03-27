@@ -7,6 +7,7 @@ import Error404 from '../pages/Error404/Error404'
 
 export const router = createBrowserRouter([
   {
+    path: '/',
     element: <Layout />,
     children: [
       { path: '/', element: <Home /> },

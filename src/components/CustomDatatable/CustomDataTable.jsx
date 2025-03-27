@@ -1,4 +1,11 @@
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import {
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import DataTable from 'react-data-table-component'
 import { filterContext } from '../../contexts/filterContext'
 import ConfirmDeleteModal from './components/ConfirmDeleteModal/ConfirmDeleteModal'
@@ -10,7 +17,7 @@ import variables from '../../styles/_export.module.scss'
 import './_CustomDataTable.scss'
 
 /**
- * Displays a custom Data Table
+ * Displays a memoized custom Data Table
  * - displays ConfirmDeleteModal on click delete icon
  *
  * @param {Object} headerCellsData Data for Columns
@@ -25,7 +32,7 @@ import './_CustomDataTable.scss'
  *
  * @returns {React.ReactElement} CustomDataTable
  */
-export default function CustomDataTable({
+export const CustomDataTableMemo = memo(function CustomDataTable({
   headerCellsData,
   tableData,
   onDelete,
@@ -40,12 +47,17 @@ export default function CustomDataTable({
   const { filterText, toggleResetPagination } = useContext(filterContext)
 
   // create state for sorting
-  const [sortedByColumn, setSortedByColumn] = useState()
+  const [sortedByColumn, setSortedByColumn] = useState(3)
 
   // Functions for sort functionality
-  const handleSort = useCallback((column) => {
-    setSortedByColumn(column.id)
-  }, [])
+  const handleSort = useCallback(
+    (column) => {
+      if (column.id !== sortedByColumn) {
+        setSortedByColumn(column.id)
+      }
+    },
+    [sortedByColumn]
+  )
 
   const sortDate = (key) => (rowA, rowB) => {
     const a = new Date(rowA[key])
@@ -63,19 +75,23 @@ export default function CustomDataTable({
   // when the id of the sorted by columns changes
   // retrieves all the cells whith this id
   // and gives them a grey background
-  useEffect(() => {
-    function styleSortedByCells(cells) {
+  const styleSortedByCells = useCallback(
+    (cells) => {
       cells.forEach((item) => {
         const itemId = parseInt(item.getAttribute('data-column-id'))
         item.style.background =
           itemId !== sortedByColumn ? '' : 'rgba(110, 110, 110, 0.1)'
       })
-    }
+    },
+    [sortedByColumn]
+  )
+
+  useEffect(() => {
     if (sortedByColumn > 3) {
       styleSortedByCells(document.querySelectorAll('.rdt_TableCol'))
       styleSortedByCells(document.querySelectorAll('.rdt_TableCell'))
     }
-  }, [sortedByColumn])
+  }, [sortedByColumn, styleSortedByCells])
 
   // creates table columns data
   const actionsColumn = useMemo(
@@ -180,9 +196,9 @@ export default function CustomDataTable({
       <ConfirmDeleteModal deleteAction={onDelete} />
     </>
   )
-}
+})
 
-CustomDataTable.propTypes = {
+CustomDataTableMemo.propTypes = {
   headerCellsData: PropTypes.object.isRequired,
   tableData: PropTypes.array.isRequired,
   onDelete: PropTypes.func.isRequired,

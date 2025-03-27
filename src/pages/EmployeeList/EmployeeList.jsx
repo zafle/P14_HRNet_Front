@@ -1,4 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router'
+import { useMemo } from 'react'
 // Contexts
 import FilterContextProvider from '../../contexts/FilterContextProvider/FilterContextProvider'
 import DeleteModalContextProvider from '../../contexts/DeleteModalContextProvider/DeleteModalContextProvider'
@@ -9,9 +11,8 @@ import { getAllEmployees } from '../../redux/selectors'
 // Data
 import { employeesDataTableProperties } from '../../data/employeesDataTable'
 // Components
-import CustomDataTable from '../../components/CustomDataTable/CustomDataTable'
+import { CustomDataTableMemo } from '../../components/CustomDataTable/CustomDataTable'
 import MainTitle from '../../components/MainTitle/MainTitle'
-import { useNavigate } from 'react-router'
 
 /**
  * Displays employee-list page content
@@ -25,6 +26,7 @@ export default function EmployeeList() {
 
   // Get data table content
   const allEmployees = useSelector(getAllEmployees)
+  const memoizedTableData = useMemo(() => allEmployees, [allEmployees])
 
   // Create the function to use on delete employee Data Table row
   const handleOnDeleteEmployee = (id) => {
@@ -41,9 +43,9 @@ export default function EmployeeList() {
       <MainTitle title="Current Employees" />
       <FilterContextProvider>
         <DeleteModalContextProvider>
-          <CustomDataTable
+          <CustomDataTableMemo
             headerCellsData={employeesDataTableProperties}
-            tableData={allEmployees}
+            tableData={memoizedTableData}
             onDelete={handleOnDeleteEmployee}
             nameProperty="firstName"
             onEdit={handleOnEditEmployee}

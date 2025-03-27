@@ -53,7 +53,10 @@ export const getZipCode = (state) => state.employee.zipCode
  * zipCode: string,
  * }>} Returns an array of all employees
  */
-export const getAllEmployees = (state) => employeesSelector.selectAll(state)
+export const getAllEmployees = createSelector(
+  [employeesSelector.selectAll],
+  (employees) => employees
+)
 
 /**
  * Get one employee's data

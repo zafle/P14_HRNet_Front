@@ -1,5 +1,8 @@
 import { Outlet } from 'react-router'
-import Header from '../Header/Header'
+import { HeaderMemo } from '../Header/Header'
+import { PersistGate } from 'redux-persist/integration/react'
+import { Provider } from 'react-redux'
+import { persistor, store } from '../../redux/store'
 
 /**
  * Displays the site layout used in Router
@@ -9,9 +12,13 @@ import Header from '../Header/Header'
 export default function Layout() {
   return (
     <>
-      <Header />
+      <HeaderMemo />
       <main>
-        <Outlet />
+        <Provider store={store}>
+          <PersistGate loading="Loading..." persistor={persistor}>
+            <Outlet />
+          </PersistGate>
+        </Provider>
       </main>
     </>
   )

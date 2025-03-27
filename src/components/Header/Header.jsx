@@ -1,13 +1,14 @@
+import { memo } from 'react'
 import { Link, NavLink } from 'react-router'
 import logo from '../../assets/logo_wealth_health.png'
 import './_Header.scss'
 
 /**
- * Displays the main App Header
+ * Displays the memoized main App Header
  *
  * @returns {React.ReactElement} Main App Header
  */
-function Header() {
+export const HeaderMemo = memo(function Header() {
   return (
     <header className="mainheader">
       <Link to="/">
@@ -30,6 +31,4 @@ function Header() {
       </nav>
     </header>
   )
-}
-
-export default Header
+})
