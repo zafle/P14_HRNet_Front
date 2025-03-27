@@ -1,9 +1,11 @@
+import { lazy } from 'react'
 import { createBrowserRouter } from 'react-router'
 import Layout from '../components/Layout/Layout'
-import Home from '../pages/Home/Home'
-import EditEmployee from '../pages/EditEmployee/EditEmployee'
-import EmployeeList from '../pages/EmployeeList/EmployeeList'
-import Error404 from '../pages/Error404/Error404'
+
+const Home = lazy(() => import('../pages/Home/Home'))
+const EditEmployee = lazy(() => import('../pages/EditEmployee/EditEmployee'))
+const EmployeeList = lazy(() => import('../pages/EmployeeList/EmployeeList'))
+const Error404 = lazy(() => import('../pages/Error404/Error404'))
 
 export const router = createBrowserRouter([
   {
