@@ -97,6 +97,9 @@ export const FormSelectMemo = memo(function FormSelect({
           textField={textField ? textField : ''}
           valueField={valueField ? valueField : ''}
           defaultSelectedOption={defaultSelected}
+          // defaultSelectedOption={
+          //   label === 'Department' ? 'Marketing' : 'Colorado'
+          // }
           border="unset"
           containerMargin={`${inputMarginTop} 0 ${formItemMarginBottom} 0`}
           borderRadius="0"
