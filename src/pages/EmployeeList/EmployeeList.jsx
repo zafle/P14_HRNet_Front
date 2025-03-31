@@ -14,16 +14,6 @@ import { employeesDataTableProperties } from '../../data/employeesDataTable'
 import { CustomDataTableMemo } from '../../components/CustomDataTable/CustomDataTable'
 import MainTitle from '../../components/MainTitle/MainTitle'
 
-// ########## MOCKED DATA FOR DEMO ###############
-// import {
-//   ariaLabel,
-//   onDeleteSalePoint,
-//   onEditSalePoint,
-//   salePointNameProperty,
-//   salesPointDataTableProperties,
-//   salesPoints,
-// } from '../../data/mock/mockDatas'
-
 /**
  * Displays employee-list page content
  * - Displays CustomDataTable with all employees
@@ -66,23 +56,3 @@ export default function EmployeeList() {
     </>
   )
 }
-
-// ##### WITH MOCKED DATA FOR DEMO #########
-//   return (
-//     <>
-//       <MainTitle title="Sale Points" />
-//       <FilterContextProvider>
-//         <DeleteModalContextProvider>
-//           <CustomDataTableMemo
-//             headerCellsData={salesPointDataTableProperties}
-//             tableData={salesPoints}
-//             onDelete={onDeleteSalePoint}
-//             nameProperty={salePointNameProperty}
-//             onEdit={onEditSalePoint}
-//             ariaLabel={ariaLabel}
-//           />
-//         </DeleteModalContextProvider>
-//       </FilterContextProvider>
-//     </>
-//   )
-// }

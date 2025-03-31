@@ -10,11 +10,11 @@ const initialState = {
   firstName: '',
   lastName: '',
   startDate: null,
-  department: '',
+  department: null,
   dateOfBirth: null,
   street: '',
   city: '',
-  state: '',
+  state: null,
   zipCode: '',
 }
 

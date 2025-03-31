@@ -11,7 +11,7 @@ import './_FormSelect.scss'
  * @param {string} label SelectMenu label
  * @param {Array.<string|Object>} options SelectMenu data for dropdown options
  * @param {function} onChange function to use when an option is selected
- * @param {string} selectedOption the selected option state
+ * @param {string | null} selectedOption the selected option Redux state
  * @param {string} textField the property name for options text in the options Array data
  * @param {string} valueField the property name for options values in the options Array data
  * @param {string} backgroundColor background color for SelectMenu input
@@ -40,30 +40,10 @@ export const FormSelectMemo = memo(function FormSelect({
     primaryColor,
   } = variables
 
-  // Create a local state for the selected option
-  // - Allows to enable default selected option from selectMenu
-  // - (Otherwise reset form does not reset on the default value)
+  // Create a local empty state for the selectedOption prop
+  // -> this lets SelectMenu component display set default value
+  // (this default value changes if formType is create or update)
   const [componentSelected, setComponentSelected] = useState('')
-
-  const [defaultSelected, setDefaultSelected] = useState('')
-  const [resetToDefault, setResetToDefault] = useState()
-
-  useEffect(() => {
-    if (formType === 'create') {
-      setDefaultSelected('first')
-      setResetToDefault(true)
-    } else if (formType === 'update') {
-      setResetToDefault(false)
-      if (selectedOption === '') {
-        setDefaultSelected('default')
-      } else {
-        setDefaultSelected(selectedOption)
-      }
-    }
-    // NOTE: Run effect only when component mounts,
-    // please recheck dependencies if effect is updated.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   // Handle onChangeValue prop
   // Update local and redux state on change
@@ -72,14 +52,11 @@ export const FormSelectMemo = memo(function FormSelect({
     onChange(option)
   }
 
-  // Reset local state when reset form by injecting empty value programmatically
+  // Reset local state when the form is reset
   useEffect(() => {
-    if (selectedOption === '' && componentSelected !== '') {
+    if (selectedOption === null) {
       setComponentSelected(selectedOption)
     }
-    // NOTE: Run effect only when selectedOption changes,
-    // please recheck dependencies if effect is updated.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOption])
 
   return (
@@ -87,33 +64,39 @@ export const FormSelectMemo = memo(function FormSelect({
       <label htmlFor={`select-${label}`} className="selectFormLabel">
         {label}
       </label>
-      {defaultSelected !== '' && resetToDefault !== undefined && (
-        <SelectMenu
-          id={`select-${label}`}
-          options={options}
-          onChangeValue={handleChange}
-          selectedOption={componentSelected}
-          resetToDefault={resetToDefault}
-          textField={textField ? textField : ''}
-          valueField={valueField ? valueField : ''}
-          defaultSelectedOption={defaultSelected}
-          // defaultSelectedOption={
-          //   label === 'Department' ? 'Marketing' : 'Colorado'
-          // }
-          border="unset"
-          containerMargin={`${inputMarginTop} 0 ${formItemMarginBottom} 0`}
-          borderRadius="0"
-          inputBackground={backgroundColor}
-          boxShadow="10px 10px 15px rgba(0, 0, 0, 0.2)"
-          inputVerticalPadding={inputVerticalPadding}
-          inputHorizontalPadding={inputHorizontalPadding}
-          maxWidth={inputMaxWidth}
-          optionFontSize={inputFontSize}
-          hoveredOptionBackground={primaryColor}
-          boxShadowOnOpen={true}
-          dropdownMaxHeight="250px"
-        />
-      )}
+      <SelectMenu
+        id={`select-${label}`}
+        options={options}
+        onChangeValue={handleChange}
+        selectedOption={componentSelected}
+        resetToDefault={formType === 'create'}
+        textField={textField ? textField : ''}
+        valueField={valueField ? valueField : ''}
+        defaultSelectedOption={
+          formType === 'create'
+            ? 'first'
+            : selectedOption !== ''
+            ? selectedOption
+            : 'default'
+        }
+        //  ########### FOR PRESENTATION ###########
+        // defaultSelectedOption={
+        //   label === 'Department' ? 'Marketing' : 'Colorado'
+        // }
+        //  ########################################
+        border="unset"
+        containerMargin={`${inputMarginTop} 0 ${formItemMarginBottom} 0`}
+        borderRadius="0"
+        inputBackground={backgroundColor}
+        boxShadow="10px 10px 15px rgba(0, 0, 0, 0.2)"
+        inputVerticalPadding={inputVerticalPadding}
+        inputHorizontalPadding={inputHorizontalPadding}
+        maxWidth={inputMaxWidth}
+        optionFontSize={inputFontSize}
+        hoveredOptionBackground={primaryColor}
+        boxShadowOnOpen={true}
+        dropdownMaxHeight="250px"
+      />
     </>
   )
 })
@@ -155,7 +138,7 @@ FormSelectMemo.propTypes = {
     ])
   ).isRequired,
   onChange: PropTypes.func.isRequired,
-  selectedOption: PropTypes.string.isRequired,
+  selectedOption: PropTypes.string,
   backgroundColor: PropTypes.string.isRequired,
   textField: PropTypes.string,
   valueField: PropTypes.string,
